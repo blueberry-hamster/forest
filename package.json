@@ -1,0 +1,27 @@
+{
+  "name": "forest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blueberry-hamster/forest.git"
+  },
+  "author": "Jiani Fan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blueberry-hamster/forest/issues"
+  },
+  "homepage": "https://github.com/blueberry-hamster/forest#readme",
+  "dependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@svgdotjs/svg.js": "^3.0.16",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
