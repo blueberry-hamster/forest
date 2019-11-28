@@ -97,11 +97,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @svgdotjs/svg.js */ "./node_modules/@svgdotjs/svg.js/dist/svg.esm.js");
 
-var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo('#canvas').size(1000, 1000); // var group = draw.group()
-// group.add(line)
-// notes: 
-// - always input angles as relative to 90degrees vertical
-// - 
+var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo('#canvas').size(1000, 1000);
 
 function distance(point1, point2) {
   return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
@@ -114,38 +110,39 @@ function randomInt(min, max) {
 }
 
 function calculateEndPoint(start, length, angle) {
-  var radian = angle * Math.PI / 180;
+  var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+  debugger;
+  var radian = angle * Math.PI / 180,
+      newLen = length * ratio;
   return {
-    x: start.x - length * Math.cos(radian),
-    y: start.y - length * Math.sin(radian)
+    x: start.x - newLen * Math.cos(radian),
+    y: start.y - newLen * Math.sin(radian)
   };
 } //---------------------------------------------------------------------------------------------------------------------
 
 
 function drawBranch(start, length, angle, thickness, color) {
   var end = calculateEndPoint(start, length, angle);
-  var line = draw.line(start.x, start.y, end.x, end.y);
-  line.stroke({
+  var branch = draw.line(start.x, start.y, end.x, end.y);
+  branch.stroke({
     color: color,
-    width: thickness,
-    linecap: 'round'
+    width: thickness
   });
+  return branch;
 }
 
-function drawLeaf(start, length, angle, thickness, color) {
+function drawLeaf(start, length, width, angle, color) {
+  // FIXME add different leaves
   var end = calculateEndPoint(start, length, angle);
-  var leaf = draw.line(start.x, start.y, end.x, end.y);
-  var vein = draw.line(start.x, start.y, end.x, end.y);
+  var leaf = draw.line(start.x, start.y, end.x, end.y); // const vein = draw.line(start.x, start.y, end.x, end.y);
+
   leaf.stroke({
     color: color,
-    width: thickness,
+    width: width,
     linecap: 'round'
-  });
-  vein.stroke({
-    color: color,
-    width: 1,
-    linecap: 'round'
-  });
+  }); // vein.stroke({ color: color, width: 1, linecap: 'round' });
+
+  return leaf;
 }
 
 function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
@@ -163,55 +160,132 @@ function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
 }
 
 function branchingPoints(start, end, angle, num) {
-  //calculateEndPoint(start, length, angle)
   var length = distance(start, end);
   var points = []; // find the distances to branch out at
 
-  for (var i = 0; i < num; i++) {
+  for (var i = 0; i < num - 1; i++) {
     points.push(calculateEndPoint(start, randomInt(0, length), angle));
   }
 
+  points.push(calculateEndPoint(start, length, angle));
   return points;
 } //---------------------------------------------------------------------------------------------------------------------
 
 
-var start = {
-  x: 500,
-  y: 800
-},
-    length = 250,
-    angle = 90,
-    width = 20;
+function drawLayer(_ref) {
+  var start = _ref.start,
+      length = _ref.length,
+      angle = _ref.angle,
+      width = _ref.width,
+      layer = _ref.layer,
+      buddingTendency = _ref.buddingTendency,
+      branchDensity = _ref.branchDensity,
+      branchMinAngle = _ref.branchMinAngle,
+      branchMaxAngle = _ref.branchMaxAngle,
+      leafDensity = _ref.leafDensity,
+      minLeafAngle = _ref.minLeafAngle,
+      maxLeafAngle = _ref.maxLeafAngle,
+      leafLength = _ref.leafLength,
+      leafWidth = _ref.leafWidth,
+      childBranchLengthFalloff = _ref.childBranchLengthFalloff,
+      childBranchWidthFalloff = _ref.childBranchWidthFalloff,
+      layerAngleMin = _ref.layerAngleMin,
+      layerAngleMax = _ref.layerAngleMax,
+      layerLengthFalloff = _ref.layerLengthFalloff,
+      layerWidthFalloff = _ref.layerWidthFalloff,
+      leafColor = _ref.leafColor,
+      branchColor = _ref.branchColor;
+  var thisLayer = draw.group();
+  var leaves = draw.group(); // first base branch
 
-function drawLayer(start, length, angle, width, layer) {
-  drawBranch(start, length, angle, width, 'black');
-  var end = calculateEndPoint(start, length, angle);
-  var branches = branchingPoints(start, end, angle, 3);
-  var angles = branchAngles(angle, 15, width, 3);
-  branches.forEach(function (point, i) {
+  thisLayer.add(drawBranch(start, length, angle, width, branchColor));
+  var branchStart = calculateEndPoint(start, length, angle, buddingTendency); // how branches and leaves are placed 
+
+  var end = calculateEndPoint(start, length, angle),
+      buddingPoints = branchingPoints(branchStart, end, angle, branchDensity),
+      // how dense the branches will be
+  angles = branchAngles(angle, branchMinAngle, branchMaxAngle, branchDensity); // min and max change of branch angles
+
+  buddingPoints.forEach(function (point, i) {
+    var currentAngle = angles[i];
+
     if (layer === 0) {
-      var _end = calculateEndPoint(start, length, angle);
+      // if it's the end, draw LEAVES
+      buddingPoints = branchingPoints(branchStart, end, angle, leafDensity); //leaf density
 
-      var _branches = branchingPoints(start, _end, angle, 4);
+      angles = branchAngles(angle, minLeafAngle, maxLeafAngle, leafDensity); //min and max change of leaf angles
 
-      var _angles = branchAngles(angle, 90, width, 4);
-
-      _branches.forEach(function (point, i) {
-        drawLeaf(point, 10, _angles[i], 10, 'rgba(16, 151, 16, 0.65)');
+      buddingPoints.forEach(function (point, i) {
+        var currentAngle = angles[i];
+        leaves.add(drawLeaf(point, leafLength, leafWidth, currentAngle, leafColor)); //leaf width and length, eventually shape?
       });
-
-      return;
     } else {
-      drawBranch(point, length * 0.8, angles[i], width * 0.5, 'black');
+      // if not the end, draw BRANCHES
+      thisLayer.add(drawBranch(point, length * childBranchLengthFalloff, currentAngle, width * childBranchWidthFalloff, branchColor)); // child branch length/width fall-off FRACTION
 
-      var _angle = randomInt(angles[i] - 30, angles[i] + 30);
+      var nextAngle = randomInt(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
 
-      drawLayer(point, length * 0.8, _angle, width * 0.65, layer - 1);
+      params = {
+        start: point,
+        length: length * layerLengthFalloff,
+        angle: nextAngle,
+        width: width * layerWidthFalloff,
+        layer: layer - 1,
+        buddingTendency: buddingTendency,
+        branchDensity: branchDensity,
+        branchMinAngle: branchMinAngle,
+        branchMaxAngle: branchMaxAngle,
+        leafDensity: leafDensity,
+        minLeafAngle: minLeafAngle,
+        maxLeafAngle: maxLeafAngle,
+        leafLength: leafLength,
+        leafWidth: leafWidth,
+        childBranchLengthFalloff: childBranchLengthFalloff,
+        childBranchWidthFalloff: childBranchWidthFalloff,
+        layerAngleMin: layerAngleMin,
+        layerAngleMax: layerAngleMax,
+        layerLengthFalloff: layerLengthFalloff,
+        layerWidthFalloff: layerWidthFalloff,
+        leafColor: leafColor,
+        branchColor: branchColor
+      };
+      drawLayer(params); //branch layer width fall-off FRACTION, length layer fall-off FRACTION
     }
   });
+  thisLayer.add(leaves);
+  tree.add(thisLayer);
+  return thisLayer;
 }
 
-drawLayer(start, length, angle, width, 6);
+var params = {
+  start: {
+    x: 500,
+    y: 800
+  },
+  length: 200,
+  angle: 90,
+  width: 20,
+  layer: 6,
+  buddingTendency: 0.25,
+  branchDensity: 3,
+  branchMinAngle: 10,
+  branchMaxAngle: 20,
+  leafDensity: 5,
+  minLeafAngle: 30,
+  maxLeafAngle: 60,
+  leafLength: 10,
+  leafWidth: 10,
+  childBranchLengthFalloff: 0.7,
+  childBranchWidthFalloff: 0.5,
+  layerAngleMin: -30,
+  layerAngleMax: 30,
+  layerLengthFalloff: 0.8,
+  layerWidthFalloff: 0.65,
+  leafColor: 'rgba(16, 151, 16, 0.65)',
+  branchColor: 'rgb(31, 36, 4)'
+};
+var tree = draw.group();
+tree.add(drawLayer(params));
 
 /***/ }),
 
