@@ -1,7 +1,8 @@
 import { drawLayer, draw } from './tree_builder';
+import { camelToKebab } from "./tree_helpers";
 
 let params = {
-  start: { x: 500, y: 900 },
+  start = { x: 500, y: 900 },
   length: 200,
   angle: 90,
   width: 20,
@@ -25,4 +26,11 @@ let params = {
 
 drawLayer(params);
 
-
+Object.keys(params).forEach(param => {
+  debugger
+  let windowEl = document.getElementById(`${camelToKebab(param)}`);
+  windowEl.addEventListener('change', e => {
+    params[param] = windowEl.value;
+    drawLayer(params);
+  });
+});

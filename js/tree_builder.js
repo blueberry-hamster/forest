@@ -1,7 +1,7 @@
 import { SVG } from '@svgdotjs/svg.js';
 export const draw = SVG().addTo('#canvas').size(1000, 1000);
 
-import { randomInt, calculateEndPoint, branchAngles, branchingPoints } from "./util";
+import { randomInt, calculateEndPoint, branchAngles, branchingPoints } from "./tree_helpers";
 
 //---------------------------------------------------------------------------------------------------------------------
 

@@ -1,3 +1,7 @@
+export const camelToKebab = (string) => {
+  return string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+};
+
 export const distance = (point1, point2) => {
   return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
 }
@@ -37,7 +41,8 @@ export const branchingPoints = (start, end, angle, num) => {
   for (let i = 0; i < num - 1; i++) {
     points.push(calculateEndPoint(start, randomInt(0, length), angle));
   }
-  points.push(calculateEndPoint(start, length, angle))
+  points.push(calculateEndPoint(start, length, angle
+    ))
 
   return points;
 }

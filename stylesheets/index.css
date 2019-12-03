@@ -5,5 +5,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+body .adjustments-container {
+  z-index: 500;
+}
 
 /*# sourceMappingURL=index.css.map */
