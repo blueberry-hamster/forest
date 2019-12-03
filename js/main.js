@@ -1,6 +1,5 @@
 import { drawLayer, draw } from './tree_builder';
 
-
 let params = {
   start: { x: 500, y: 900 },
   length: 200,
@@ -14,10 +13,8 @@ let params = {
   leafDensity: 5,
   minLeafAngle: 30,
   maxLeafAngle: 60,
-  leafLength: 10,
+  leafLength: 7,
   leafWidth: 10,
-  childBranchLengthFalloff: 0.7,
-  childBranchWidthFalloff: 0.5,
   layerAngleMin: -30,
   layerAngleMax: 30,
   layerLengthFalloff: 0.8,

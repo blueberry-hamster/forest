@@ -113,10 +113,8 @@ var params = {
   leafDensity: 5,
   minLeafAngle: 30,
   maxLeafAngle: 60,
-  leafLength: 10,
+  leafLength: 7,
   leafWidth: 10,
-  childBranchLengthFalloff: 0.7,
-  childBranchWidthFalloff: 0.5,
   layerAngleMin: -30,
   layerAngleMax: 30,
   layerLengthFalloff: 0.8,
@@ -140,32 +138,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw", function() { return draw; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawLayer", function() { return drawLayer; });
 /* harmony import */ var _svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @svgdotjs/svg.js */ "./node_modules/@svgdotjs/svg.js/dist/svg.esm.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./js/util.js");
 
 var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo('#canvas').size(1000, 1000);
-
-function distance(point1, point2) {
-  return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
-}
-
-function randomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-}
-
-function calculateEndPoint(start, length, angle) {
-  var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-  var radian = angle * Math.PI / 180,
-      newLen = length * ratio;
-  return {
-    x: start.x - newLen * Math.cos(radian),
-    y: start.y - newLen * Math.sin(radian)
-  };
-} //---------------------------------------------------------------------------------------------------------------------
-
+ //---------------------------------------------------------------------------------------------------------------------
 
 function drawBranch(start, length, angle, thickness, color) {
-  var end = calculateEndPoint(start, length, angle);
+  var end = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle);
   var branch = draw.line(start.x, start.y, end.x, end.y);
   branch.stroke({
     color: color,
@@ -176,7 +155,7 @@ function drawBranch(start, length, angle, thickness, color) {
 
 function drawLeaf(start, length, width, angle, color) {
   // FIXME add different leaves
-  var end = calculateEndPoint(start, length, angle);
+  var end = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle);
   var leaf = draw.line(start.x, start.y, end.x, end.y); // const vein = draw.line(start.x, start.y, end.x, end.y);
 
   leaf.stroke({
@@ -186,32 +165,6 @@ function drawLeaf(start, length, width, angle, color) {
   }); // vein.stroke({ color: color, width: 1, linecap: 'round' });
 
   return leaf;
-}
-
-function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
-  var angles = [];
-
-  for (var i = 0; i < num; i++) {
-    if (i % 2 == 0) {
-      angles.push(randomInt(originalAngle + minAngleChange, originalAngle + maxAngleChange));
-    } else {
-      angles.push(randomInt(originalAngle - minAngleChange, originalAngle - maxAngleChange));
-    }
-  }
-
-  return angles;
-}
-
-function branchingPoints(start, end, angle, num) {
-  var length = distance(start, end);
-  var points = []; // find the distances to branch out at
-
-  for (var i = 0; i < num - 1; i++) {
-    points.push(calculateEndPoint(start, randomInt(0, length), angle));
-  }
-
-  points.push(calculateEndPoint(start, length, angle));
-  return points;
 } //---------------------------------------------------------------------------------------------------------------------
 
 
@@ -231,8 +184,6 @@ function drawLayer(_ref) {
       maxLeafAngle = _ref.maxLeafAngle,
       leafLength = _ref.leafLength,
       leafWidth = _ref.leafWidth,
-      childBranchLengthFalloff = _ref.childBranchLengthFalloff,
-      childBranchWidthFalloff = _ref.childBranchWidthFalloff,
       layerAngleMin = _ref.layerAngleMin,
       layerAngleMax = _ref.layerAngleMax,
       layerLengthFalloff = _ref.layerLengthFalloff,
@@ -243,21 +194,21 @@ function drawLayer(_ref) {
   var leaves = draw.group(); // first base branch
 
   thisLayer.add(drawBranch(start, length, angle, width, branchColor));
-  var branchStart = calculateEndPoint(start, length, angle, buddingTendency); // how branches and leaves are placed 
+  var branchStart = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle, buddingTendency); // how branches and leaves are placed 
 
-  var end = calculateEndPoint(start, length, angle),
-      buddingPoints = branchingPoints(branchStart, end, angle, branchDensity),
+  var end = Object(_util__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle),
+      buddingPoints = Object(_util__WEBPACK_IMPORTED_MODULE_1__["branchingPoints"])(branchStart, end, angle, branchDensity),
       // how dense the branches will be
-  angles = branchAngles(angle, branchMinAngle, branchMaxAngle, branchDensity); // min and max change of branch angles
+  angles = Object(_util__WEBPACK_IMPORTED_MODULE_1__["branchAngles"])(angle, branchMinAngle, branchMaxAngle, branchDensity); // min and max change of branch angles
 
   buddingPoints.forEach(function (point, i) {
     var currentAngle = angles[i];
 
-    if (layer === 0) {
+    if (layer <= 0) {
       // if it's the end, draw LEAVES
-      buddingPoints = branchingPoints(branchStart, end, angle, leafDensity); //leaf density
+      buddingPoints = Object(_util__WEBPACK_IMPORTED_MODULE_1__["branchingPoints"])(branchStart, end, angle, leafDensity); //leaf density
 
-      angles = branchAngles(angle, minLeafAngle, maxLeafAngle, leafDensity); //min and max change of leaf angles
+      angles = Object(_util__WEBPACK_IMPORTED_MODULE_1__["branchAngles"])(angle, minLeafAngle, maxLeafAngle, leafDensity); //min and max change of leaf angles
 
       buddingPoints.forEach(function (point, i) {
         var currentAngle = angles[i];
@@ -265,9 +216,7 @@ function drawLayer(_ref) {
       });
     } else {
       // if not the end, draw BRANCHES
-      thisLayer.add(drawBranch(point, length * childBranchLengthFalloff, currentAngle, width * childBranchWidthFalloff, branchColor)); // child branch length/width fall-off FRACTION
-
-      var nextAngle = randomInt(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
+      var nextAngle = Object(_util__WEBPACK_IMPORTED_MODULE_1__["randomInt"])(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
 
       var params = {
         start: point,
@@ -284,8 +233,6 @@ function drawLayer(_ref) {
         maxLeafAngle: maxLeafAngle,
         leafLength: leafLength,
         leafWidth: leafWidth,
-        childBranchLengthFalloff: childBranchLengthFalloff,
-        childBranchWidthFalloff: childBranchWidthFalloff,
         layerAngleMin: layerAngleMin,
         layerAngleMax: layerAngleMax,
         layerLengthFalloff: layerLengthFalloff,
@@ -300,6 +247,64 @@ function drawLayer(_ref) {
   tree.add(thisLayer);
   return thisLayer;
 }
+
+/***/ }),
+
+/***/ "./js/util.js":
+/*!********************!*\
+  !*** ./js/util.js ***!
+  \********************/
+/*! exports provided: distance, randomInt, calculateEndPoint, branchAngles, branchingPoints */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPoint", function() { return calculateEndPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchAngles", function() { return branchAngles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchingPoints", function() { return branchingPoints; });
+var distance = function distance(point1, point2) {
+  return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+};
+var randomInt = function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+};
+var calculateEndPoint = function calculateEndPoint(start, length, angle) {
+  var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+  var radian = angle * Math.PI / 180,
+      newLen = length * ratio;
+  return {
+    x: start.x - newLen * Math.cos(radian),
+    y: start.y - newLen * Math.sin(radian)
+  };
+};
+var branchAngles = function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
+  var angles = [];
+
+  for (var i = 0; i < num; i++) {
+    if (i % 2 == 0) {
+      angles.push(randomInt(originalAngle + minAngleChange, originalAngle + maxAngleChange));
+    } else {
+      angles.push(randomInt(originalAngle - minAngleChange, originalAngle - maxAngleChange));
+    }
+  }
+
+  return angles;
+};
+var branchingPoints = function branchingPoints(start, end, angle, num) {
+  var length = distance(start, end);
+  var points = []; // find the distances to branch out at
+
+  for (var i = 0; i < num - 1; i++) {
+    points.push(calculateEndPoint(start, randomInt(0, length), angle));
+  }
+
+  points.push(calculateEndPoint(start, length, angle));
+  return points;
+};
 
 /***/ }),
 

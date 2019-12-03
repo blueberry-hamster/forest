@@ -1,24 +1,7 @@
 import { SVG } from '@svgdotjs/svg.js';
-export const draw = SVG().addTo('#canvas').size(1000, 1000)
+export const draw = SVG().addTo('#canvas').size(1000, 1000);
 
-function distance(point1, point2) {
-  return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
-}
-
-function randomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-}
-
-function calculateEndPoint(start, length, angle, ratio = 1) {
-  const radian = angle * Math.PI / 180,
-    newLen = length * ratio;
-  return {
-    x: start.x - newLen * Math.cos(radian),
-    y: start.y - newLen * Math.sin(radian)
-  };
-}
+import { randomInt, calculateEndPoint, branchAngles, branchingPoints } from "./util";
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -43,35 +26,10 @@ function drawLeaf(start, length, width, angle, color) {
   return leaf;
 }
 
-function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
-  const angles = [];
-  for (let i = 0; i < num; i++) {
-    if (i % 2 == 0) {
-      angles.push(randomInt(originalAngle + minAngleChange, originalAngle + maxAngleChange));
-    } else {
-      angles.push(randomInt(originalAngle - minAngleChange, originalAngle - maxAngleChange));
-    }
-  }
-
-  return angles;
-}
-
-function branchingPoints(start, end, angle, num) {
-  const length = distance(start, end);
-  const points = [];
-  // find the distances to branch out at
-  for (let i = 0; i < num - 1; i++) {
-    points.push(calculateEndPoint(start, randomInt(0, length), angle));
-  }
-  points.push(calculateEndPoint(start, length, angle))
-
-  return points;
-}
-
 //---------------------------------------------------------------------------------------------------------------------
 
 const tree = draw.group()
-export function drawLayer({ start, length, angle, width, layer, buddingTendency, branchDensity, branchMinAngle, branchMaxAngle, leafDensity, minLeafAngle, maxLeafAngle, leafLength, leafWidth, childBranchLengthFalloff, childBranchWidthFalloff, layerAngleMin, layerAngleMax, layerLengthFalloff, layerWidthFalloff, leafColor, branchColor }) {
+export function drawLayer({ start, length, angle, width, layer, buddingTendency, branchDensity, branchMinAngle, branchMaxAngle, leafDensity, minLeafAngle, maxLeafAngle, leafLength, leafWidth, layerAngleMin, layerAngleMax, layerLengthFalloff, layerWidthFalloff, leafColor, branchColor }) {
 
   const thisLayer = draw.group();
   const leaves = draw.group();
@@ -87,7 +45,7 @@ export function drawLayer({ start, length, angle, width, layer, buddingTendency,
   buddingPoints.forEach((point, i) => {
     const currentAngle = angles[i];
 
-    if (layer === 0) { // if it's the end, draw LEAVES
+    if (layer <= 0) { // if it's the end, draw LEAVES
       buddingPoints = branchingPoints(branchStart, end, angle, leafDensity); //leaf density
       angles = branchAngles(angle, minLeafAngle, maxLeafAngle, leafDensity); //min and max change of leaf angles
 
@@ -98,7 +56,6 @@ export function drawLayer({ start, length, angle, width, layer, buddingTendency,
       });
 
     } else { // if not the end, draw BRANCHES
-      thisLayer.add(drawBranch(point, length * childBranchLengthFalloff, currentAngle, width * childBranchWidthFalloff, branchColor)); // child branch length/width fall-off FRACTION
 
       let nextAngle = randomInt(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
       let params = {
@@ -116,8 +73,6 @@ export function drawLayer({ start, length, angle, width, layer, buddingTendency,
         maxLeafAngle,
         leafLength,
         leafWidth,
-        childBranchLengthFalloff,
-        childBranchWidthFalloff,
         layerAngleMin,
         layerAngleMax,
         layerLengthFalloff,
