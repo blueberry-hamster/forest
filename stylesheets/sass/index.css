@@ -1,0 +1,86 @@
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(139, 180, 148, 0.658);
+}
+
+body #tree-generator-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body #tree-generator-container #canvas {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-right: 10em;
+  border: 1px solid black;
+}
+
+body #tree-generator-container .adjustments-container {
+  position: absolute;
+  left: 15%;
+  top: 20%;
+  margin: auto;
+  padding: 50px;
+  z-index: 500;
+  background-color: rgba(255, 255, 255, 0.705);
+  border-radius: 1em;
+}
+
+body #tree-generator-container .adjustments-container h3 {
+  margin-bottom: 0.25em;
+  margin-top: 0.5em;
+}
+
+body #tree-generator-container .adjustments-container label {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-transform: capitalize;
+}
+
+body #tree-generator-container .dirt {
+  position: absolute;
+  width: 100vw;
+  min-height: 5em;
+  bottom: 0;
+  background-color: black;
+}
+/*# sourceMappingURL=index.css.map */

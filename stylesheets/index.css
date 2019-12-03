@@ -1,19 +1,17 @@
-body {
-  position: relative;
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
-body .adjustments-container {
-  position: absolute;
-  left: 20%;
-  top: 30%;
-  margin: auto;
-  padding: 50px;
-  z-index: 500;
-  background-color: rgba(255, 255, 255, 0.5);
-}
+/* Error: Undefined mixin.
+ *    ,
+ * 50 |       @include slider
+ *    |       ^^^^^^^^^^^^^^^
+ *    '
+ *   stylesheets/sass/index.sass 50:7  root stylesheet */
 
-/*# sourceMappingURL=index.css.map */
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined mixin.\a    \2577 \a 50 \2502        @include slider\a    \2502        ^^^^^^^^^^^^^^^\a    \2575 \a   stylesheets/sass/index.sass 50:7  root stylesheet";
+}
