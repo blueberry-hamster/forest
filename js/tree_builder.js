@@ -28,9 +28,9 @@ function drawLeaf(start, length, width, angle, color) {
 
 //---------------------------------------------------------------------------------------------------------------------
 
-const tree = draw.group()
+export const tree = draw.group()
 export function drawLayer({ start, length, angle, width, layer, buddingTendency, branchDensity, branchMinAngle, branchMaxAngle, leafDensity, minLeafAngle, maxLeafAngle, leafLength, leafWidth, layerAngleMin, layerAngleMax, layerLengthFalloff, layerWidthFalloff, leafColor, branchColor }) {
-
+  
   const thisLayer = draw.group();
   const leaves = draw.group();
 
@@ -60,9 +60,9 @@ export function drawLayer({ start, length, angle, width, layer, buddingTendency,
       let nextAngle = randomInt(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
       let params = {
         start: point,
-        length: length * layerLengthFalloff,
+        length: length * layerLengthFalloff / 100,
         angle: nextAngle,
-        width: width * layerWidthFalloff,
+        width: width * layerWidthFalloff / 100,
         layer: layer - 1,
         buddingTendency,
         branchDensity,

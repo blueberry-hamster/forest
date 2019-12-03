@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Gupter:400,500,700|Open+Sans&display=swap");
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+}
+
+h1, h2, h3 {
+  font-family: "Gupter", serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+label {
+  font-size: 1em;
+}
+
+/*# sourceMappingURL=fonts.css.map */

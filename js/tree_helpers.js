@@ -12,9 +12,9 @@ export const randomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-export const calculateEndPoint = (start, length, angle, ratio = 1) => {
+export const calculateEndPoint = (start, length, angle, ratio = 100) => {
   const radian = angle * Math.PI / 180,
-    newLen = length * ratio;
+    newLen = length * ratio / 100;
   return {
     x: start.x - newLen * Math.cos(radian),
     y: start.y - newLen * Math.sin(radian)

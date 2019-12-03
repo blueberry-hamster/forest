@@ -1,13 +1,13 @@
-import { drawLayer, draw } from './tree_builder';
+import { drawLayer, draw, tree } from './tree_builder';
 import { camelToKebab } from "./tree_helpers";
 
 let params = {
-  start = { x: 500, y: 900 },
+  start: { x: 500, y: 900 },
   length: 200,
   angle: 90,
   width: 20,
   layer: 6,
-  buddingTendency: 0.25,
+  buddingTendency: 25,
   branchDensity: 3,
   branchMinAngle: 10,
   branchMaxAngle: 20,
@@ -18,8 +18,8 @@ let params = {
   leafWidth: 10,
   layerAngleMin: -30,
   layerAngleMax: 30,
-  layerLengthFalloff: 0.8,
-  layerWidthFalloff: 0.65,
+  layerLengthFalloff: 80,
+  layerWidthFalloff: 65,
   leafColor: 'rgba(16, 151, 16, 0.65)',
   branchColor: 'rgb(31, 36, 4)',
 };
@@ -27,10 +27,11 @@ let params = {
 drawLayer(params);
 
 Object.keys(params).forEach(param => {
-  debugger
+  if (!document.getElementById(`${camelToKebab(param)}`)) return;
   let windowEl = document.getElementById(`${camelToKebab(param)}`);
   windowEl.addEventListener('change', e => {
     params[param] = windowEl.value;
+    tree.clear();
     drawLayer(params);
   });
 });
