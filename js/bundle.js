@@ -95,6 +95,50 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _tree_builder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tree_builder */ "./js/tree_builder.js");
+
+var params = {
+  start: {
+    x: 500,
+    y: 900
+  },
+  length: 200,
+  angle: 90,
+  width: 20,
+  layer: 6,
+  buddingTendency: 0.25,
+  branchDensity: 3,
+  branchMinAngle: 10,
+  branchMaxAngle: 20,
+  leafDensity: 5,
+  minLeafAngle: 30,
+  maxLeafAngle: 60,
+  leafLength: 10,
+  leafWidth: 10,
+  childBranchLengthFalloff: 0.7,
+  childBranchWidthFalloff: 0.5,
+  layerAngleMin: -30,
+  layerAngleMax: 30,
+  layerLengthFalloff: 0.8,
+  layerWidthFalloff: 0.65,
+  leafColor: 'rgba(16, 151, 16, 0.65)',
+  branchColor: 'rgb(31, 36, 4)'
+};
+Object(_tree_builder__WEBPACK_IMPORTED_MODULE_0__["drawLayer"])(params);
+
+/***/ }),
+
+/***/ "./js/tree_builder.js":
+/*!****************************!*\
+  !*** ./js/tree_builder.js ***!
+  \****************************/
+/*! exports provided: draw, drawLayer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw", function() { return draw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawLayer", function() { return drawLayer; });
 /* harmony import */ var _svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @svgdotjs/svg.js */ "./node_modules/@svgdotjs/svg.js/dist/svg.esm.js");
 
 var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo('#canvas').size(1000, 1000);
@@ -111,7 +155,6 @@ function randomInt(min, max) {
 
 function calculateEndPoint(start, length, angle) {
   var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-  debugger;
   var radian = angle * Math.PI / 180,
       newLen = length * ratio;
   return {
@@ -172,6 +215,7 @@ function branchingPoints(start, end, angle, num) {
 } //---------------------------------------------------------------------------------------------------------------------
 
 
+var tree = draw.group();
 function drawLayer(_ref) {
   var start = _ref.start,
       length = _ref.length,
@@ -225,7 +269,7 @@ function drawLayer(_ref) {
 
       var nextAngle = randomInt(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
 
-      params = {
+      var params = {
         start: point,
         length: length * layerLengthFalloff,
         angle: nextAngle,
@@ -256,36 +300,6 @@ function drawLayer(_ref) {
   tree.add(thisLayer);
   return thisLayer;
 }
-
-var params = {
-  start: {
-    x: 500,
-    y: 800
-  },
-  length: 200,
-  angle: 90,
-  width: 20,
-  layer: 6,
-  buddingTendency: 0.25,
-  branchDensity: 3,
-  branchMinAngle: 10,
-  branchMaxAngle: 20,
-  leafDensity: 5,
-  minLeafAngle: 30,
-  maxLeafAngle: 60,
-  leafLength: 10,
-  leafWidth: 10,
-  childBranchLengthFalloff: 0.7,
-  childBranchWidthFalloff: 0.5,
-  layerAngleMin: -30,
-  layerAngleMax: 30,
-  layerLengthFalloff: 0.8,
-  layerWidthFalloff: 0.65,
-  leafColor: 'rgba(16, 151, 16, 0.65)',
-  branchColor: 'rgb(31, 36, 4)'
-};
-var tree = draw.group();
-tree.add(drawLayer(params));
 
 /***/ }),
 
