@@ -110,6 +110,7 @@ body #tree-generator-container .adjustments-container h3 {
   margin-top: 0.5em;
 }
 body #tree-generator-container .adjustments-container label {
+  margin-top: 0.25em;
   width: 100%;
   display: flex;
   flex-direction: row;
