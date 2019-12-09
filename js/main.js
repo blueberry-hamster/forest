@@ -7,7 +7,7 @@ let params = {
   length: 200,
   angle: 90,
   width: 20,
-  layer: 3,
+  layer: 6,
   buddingTendency: 25,
 
   branchDensity: 3,
@@ -29,13 +29,6 @@ let params = {
 };
 
 drawLayer(params);
-
-const ellipse = draw.ellipse(300, 100);
-ellipse.move(600, 300).stroke({ color: 'grey', width: 3}).fill('none');
-for (let i = 0; i < 25; i++) {
-  let pt = randomPointInEllipse({ x: 600, y: 300}, 300, 100);
-  draw.circle(5, 5).fill('blue').move(pt.x, pt.y);
-}
 
 Object.keys(params).forEach(param => {
   if (!document.getElementById(`${camelToKebab(param)}`)) return;

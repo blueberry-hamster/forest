@@ -108,7 +108,7 @@ var params = {
   length: 200,
   angle: 90,
   width: 20,
-  layer: 3,
+  layer: 6,
   buddingTendency: 25,
   branchDensity: 3,
   branchMinAngle: 20,
@@ -126,20 +126,6 @@ var params = {
   branchColor: 'rgb(31, 36, 4)'
 };
 Object(_tree_builder__WEBPACK_IMPORTED_MODULE_0__["drawLayer"])(params);
-var ellipse = _tree_builder__WEBPACK_IMPORTED_MODULE_0__["draw"].ellipse(300, 100);
-ellipse.move(600, 300).stroke({
-  color: 'grey',
-  width: 3
-}).fill('none');
-
-for (var i = 0; i < 25; i++) {
-  var pt = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["randomPointInEllipse"])({
-    x: 600,
-    y: 300
-  }, 300, 100);
-  _tree_builder__WEBPACK_IMPORTED_MODULE_0__["draw"].circle(5, 5).fill('blue').move(pt.x, pt.y);
-}
-
 Object.keys(params).forEach(function (param) {
   if (!document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)))) return;
   var windowEl = document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)));
@@ -285,7 +271,7 @@ function drawLayer(_ref) {
 /*!****************************!*\
   !*** ./js/tree_helpers.js ***!
   \****************************/
-/*! exports provided: camelToKebab, distance, midpoint, randomInt, calculateEndPoint, randomPointInEllipse, branchAngles, branchingPoints */
+/*! exports provided: camelToKebab, distance, midpoint, randomInt, calculateEndPoint, calculateEndPointOnPath, randomPointInEllipse, branchAngles, branchingPoints */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -295,6 +281,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midpoint", function() { return midpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPoint", function() { return calculateEndPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPointOnPath", function() { return calculateEndPointOnPath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomPointInEllipse", function() { return randomPointInEllipse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchAngles", function() { return branchAngles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchingPoints", function() { return branchingPoints; });
@@ -323,6 +310,11 @@ var calculateEndPoint = function calculateEndPoint(start, length, angle) {
     x: start.x - newLen * Math.cos(radian),
     y: start.y - newLen * Math.sin(radian)
   };
+};
+var calculateEndPointOnPath = function calculateEndPointOnPath(path) {
+  var ratio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+  var length = path.length() * ratio / 100;
+  return length.pointAt(length);
 };
 var randomPointInEllipse = function randomPointInEllipse(midpoint, length, width) {
   var xCenter = midpoint.x;

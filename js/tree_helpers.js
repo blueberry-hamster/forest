@@ -28,6 +28,11 @@ export const calculateEndPoint = (start, length, angle, ratio = 100) => {
   };
 }
 
+export const calculateEndPointOnPath = (path, ratio = 100) => {
+  const length = path.length() * ratio / 100;
+  return length.pointAt(length);
+}
+
 export const randomPointInEllipse = (midpoint, length, width) => {
   let xCenter = midpoint.x;
   let yCenter = midpoint.y;
