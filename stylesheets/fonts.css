@@ -1,26 +1,17 @@
-@import url("https://fonts.googleapis.com/css?family=Baskervville|Montserrat:300,400&display=swap");
-body {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 400;
-  font-size: 0.9em;
+/* Error: Undefined variable.
+ *   ,
+ * 10|   color: $black-brown
+ *   |          ^^^^^^^^^^^^
+ *   '
+ *   stylesheets/sass/fonts.sass 10:10  root stylesheet */
+
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined variable.\a   \2577 \a 10\2502    color: $black-brown\a   \2502           ^^^^^^^^^^^^\a   \2575 \a   stylesheets/sass/fonts.sass 10:10  root stylesheet";
 }
-
-h1, h2, h3 {
-  font-family: "Baskervville", serif;
-}
-
-h1 {
-  font-size: 2.5em;
-}
-
-h2 {
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.5em;
-}
-
-/*# sourceMappingURL=fonts.css.map */
-
-/*# sourceMappingURL=fonts.css.map */

@@ -53,6 +53,7 @@ body {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 0.9em;
+  color: #1f2404;
 }
 
 h1, h2, h3 {
@@ -77,7 +78,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: rgba(139, 180, 148, 0.658);
+  background-color: #ffffff;
 }
 body #tree-generator-container {
   display: flex;
@@ -97,13 +98,19 @@ body #tree-generator-container #canvas {
 }
 body #tree-generator-container .adjustments-container {
   position: absolute;
-  left: 15%;
+  left: 10%;
   top: 20%;
+  min-width: 400px;
+  max-height: 500px;
+  overflow-y: scroll;
   margin: auto;
   padding: 50px;
   z-index: 500;
   background-color: rgba(255, 255, 255, 0.705);
   border-radius: 1em;
+}
+body #tree-generator-container .adjustments-container h1 {
+  margin-bottom: 0.5em;
 }
 body #tree-generator-container .adjustments-container h3 {
   margin-bottom: 0.25em;
@@ -121,8 +128,8 @@ body #tree-generator-container .adjustments-container input[type=range] {
   -webkit-appearance: none;
   appearance: none;
   width: 200px;
-  height: 0.25em;
-  padding: 0.25em 0;
+  height: 5px;
+  margin: 5px 0px;
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
@@ -135,17 +142,17 @@ body #tree-generator-container .adjustments-container input[type=range]:hover {
 body #tree-generator-container .adjustments-container input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1em;
-  height: 1em;
+  width: 10px;
+  height: 10px;
   border-radius: 100%;
-  background: #4CAF50;
+  background: rgba(16, 151, 16, 0.65);
   cursor: pointer;
 }
 body #tree-generator-container .adjustments-container input[type=range]::-moz-range-thumb {
-  width: 1em;
-  height: 1em;
+  width: 10px;
+  height: 10px;
   border-radius: 100%;
-  background: #4CAF50;
+  background: rgba(16, 151, 16, 0.65);
   cursor: pointer;
 }
 body #tree-generator-container .dirt {
@@ -153,7 +160,7 @@ body #tree-generator-container .dirt {
   width: 100vw;
   min-height: 5em;
   bottom: 0;
-  background-color: black;
+  background-color: #1f2404;
 }
 
 /*# sourceMappingURL=main.css.map */

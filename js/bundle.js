@@ -99,6 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
 
 
+
 var params = {
   start: {
     x: 500,
@@ -107,16 +108,16 @@ var params = {
   length: 200,
   angle: 90,
   width: 20,
-  layer: 6,
+  layer: 3,
   buddingTendency: 25,
   branchDensity: 3,
-  branchMinAngle: 10,
+  branchMinAngle: 20,
   branchMaxAngle: 20,
   leafDensity: 5,
   minLeafAngle: 30,
   maxLeafAngle: 60,
-  leafLength: 7,
-  leafWidth: 10,
+  leafLength: 10,
+  leafWidth: 3,
   layerAngleMin: -30,
   layerAngleMax: 30,
   layerLengthFalloff: 80,
@@ -125,6 +126,20 @@ var params = {
   branchColor: 'rgb(31, 36, 4)'
 };
 Object(_tree_builder__WEBPACK_IMPORTED_MODULE_0__["drawLayer"])(params);
+var ellipse = _tree_builder__WEBPACK_IMPORTED_MODULE_0__["draw"].ellipse(300, 100);
+ellipse.move(600, 300).stroke({
+  color: 'grey',
+  width: 3
+}).fill('none');
+
+for (var i = 0; i < 25; i++) {
+  var pt = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["randomPointInEllipse"])({
+    x: 600,
+    y: 300
+  }, 300, 100);
+  _tree_builder__WEBPACK_IMPORTED_MODULE_0__["draw"].circle(5, 5).fill('blue').move(pt.x, pt.y);
+}
+
 Object.keys(params).forEach(function (param) {
   if (!document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)))) return;
   var windowEl = document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)));
@@ -157,12 +172,19 @@ var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo(
 
 function drawBranch(start, length, angle, thickness, color) {
   var end = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle);
-  var branch = draw.line(start.x, start.y, end.x, end.y);
+  var mid = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["midpoint"])(start, end);
+  var randPt = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["randomPointInEllipse"])(mid, length, length / 10); // const branch = draw.line(start.x, start.y, end.x, end.y);
+  // branch.stroke({ color: color, width: thickness });
+
+  var branch = draw.path("M ".concat(start.x, " ").concat(start.y, " Q ").concat(randPt.x, " ").concat(randPt.y, " ").concat(end.x, " ").concat(end.y));
   branch.stroke({
     color: color,
-    width: thickness
+    width: thickness,
+    linecap: 'round',
+    linejoin: 'round'
   });
-  return branch;
+  branch.fill('none');
+  return branch.addClass('branch');
 }
 
 function drawLeaf(start, length, width, angle, color) {
@@ -176,11 +198,11 @@ function drawLeaf(start, length, width, angle, color) {
     linecap: 'round'
   }); // vein.stroke({ color: color, width: 1, linecap: 'round' });
 
-  return leaf;
+  return leaf.addClass('leaf');
 } //---------------------------------------------------------------------------------------------------------------------
 
 
-var tree = draw.group();
+var tree = draw.group().addClass('tree');
 function drawLayer(_ref) {
   var start = _ref.start,
       length = _ref.length,
@@ -202,10 +224,9 @@ function drawLayer(_ref) {
       layerWidthFalloff = _ref.layerWidthFalloff,
       leafColor = _ref.leafColor,
       branchColor = _ref.branchColor;
-  var thisLayer = draw.group();
-  var leaves = draw.group(); // first base branch
+  var leaves = draw.group().addClass('leaves-layer'); // first base branch
 
-  thisLayer.add(drawBranch(start, length, angle, width, branchColor));
+  tree.add(drawBranch(start, length, angle, width, branchColor));
   var branchStart = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle, buddingTendency); // how branches and leaves are placed 
 
   var end = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle),
@@ -255,9 +276,7 @@ function drawLayer(_ref) {
       drawLayer(params); //branch layer width fall-off FRACTION, length layer fall-off FRACTION
     }
   });
-  thisLayer.add(leaves);
-  tree.add(thisLayer);
-  return thisLayer;
+  tree.add(leaves);
 }
 
 /***/ }),
@@ -266,15 +285,17 @@ function drawLayer(_ref) {
 /*!****************************!*\
   !*** ./js/tree_helpers.js ***!
   \****************************/
-/*! exports provided: camelToKebab, distance, randomInt, calculateEndPoint, branchAngles, branchingPoints */
+/*! exports provided: camelToKebab, distance, midpoint, randomInt, calculateEndPoint, randomPointInEllipse, branchAngles, branchingPoints */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camelToKebab", function() { return camelToKebab; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midpoint", function() { return midpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPoint", function() { return calculateEndPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomPointInEllipse", function() { return randomPointInEllipse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchAngles", function() { return branchAngles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchingPoints", function() { return branchingPoints; });
 var camelToKebab = function camelToKebab(string) {
@@ -282,6 +303,12 @@ var camelToKebab = function camelToKebab(string) {
 };
 var distance = function distance(point1, point2) {
   return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+};
+var midpoint = function midpoint(point1, point2) {
+  return {
+    x: (point1.x + point2.x) / 2,
+    y: (point1.y + point2.y) / 2
+  };
 };
 var randomInt = function randomInt(min, max) {
   min = Math.ceil(min);
@@ -295,6 +322,20 @@ var calculateEndPoint = function calculateEndPoint(start, length, angle) {
   return {
     x: start.x - newLen * Math.cos(radian),
     y: start.y - newLen * Math.sin(radian)
+  };
+};
+var randomPointInEllipse = function randomPointInEllipse(midpoint, length, width) {
+  var xCenter = midpoint.x;
+  var yCenter = midpoint.y;
+  var xRadius = length / 2;
+  var yRadius = width / 2;
+  var t = 2 * Math.PI * Math.random();
+  var d = Math.sqrt(Math.random());
+  var x = xCenter + xRadius * d * Math.cos(t);
+  var y = yCenter + yRadius * d * Math.sin(t);
+  return {
+    x: x,
+    y: y
   };
 };
 var branchAngles = function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {

@@ -6,6 +6,13 @@ export const distance = (point1, point2) => {
   return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
 }
 
+export const midpoint = (point1, point2) => {
+  return {
+    x: (point1.x + point2.x) / 2,
+    y: (point1.y + point2.y) / 2
+  }
+}
+
 export const randomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -19,6 +26,20 @@ export const calculateEndPoint = (start, length, angle, ratio = 100) => {
     x: start.x - newLen * Math.cos(radian),
     y: start.y - newLen * Math.sin(radian)
   };
+}
+
+export const randomPointInEllipse = (midpoint, length, width) => {
+  let xCenter = midpoint.x;
+  let yCenter = midpoint.y;
+  let xRadius = length / 2;
+  let yRadius = width / 2;
+
+  let t = 2 * Math.PI * Math.random();
+  let d = Math.sqrt(Math.random());
+  let x = xCenter + xRadius * d * Math.cos(t);
+  let y = yCenter + yRadius * d * Math.sin(t);
+  
+  return { x, y }
 }
 
 export const branchAngles = (originalAngle, minAngleChange, maxAngleChange, num) => {

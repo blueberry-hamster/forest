@@ -13,6 +13,7 @@
 <body>
   <div id='tree-generator-container'>
     <div class='adjustments-container'>
+      <h1>Forest</h1>
       <ul class='starting-parameters'>
         <h3>Starting Parameters</h3>
         <li>
@@ -45,22 +46,22 @@
         <h3>Layer Parameters</h3>
         <li>
           <label>minimum layer angle
-            <input type="range" min="-180" max="0" value="-30" class="slider" id="layer-angle-min">
+            <input type="range" min="0" max="45" value="30" class="slider" id="layer-angle-min">
           </label>
         </li>
         <li>
           <label>maximum layer angle
-            <input type="range" min="0" max="180" value="30" class="slider" id="layer-angle-max">
+            <input type="range" min="0" max="45" value="30" class="slider" id="layer-angle-max">
           </label>
         </li>
         <li>
           <label>layer length fall-off
-            <input type="range" min="0" max="99" value="80" class="slider" id="layer-length-falloff">
+            <input type="range" min="40" max="100" value="80" class="slider" id="layer-length-falloff">
           </label>
         </li>
         <li>
           <label>layer width fall-off
-            <input type="range" min="0" max="99" value="65" class="slider" id="layer-width-falloff">
+            <input type="range" min="10" max="100" value="65" class="slider" id="layer-width-falloff">
           </label>
         </li>
       </ul>
@@ -68,7 +69,7 @@
         <h3>Branch Parameters</h3>
         <li>
           <label>branch density
-            <input type="range" min="1" max="5" value="3" class="slider" id="branch-density">
+            <input type="range" min="1" max="4" value="3" class="slider" id="branch-density">
           </label>
         </li>
         <li>
@@ -101,12 +102,12 @@
         </li>
         <li>
           <label>leaf length
-            <input type="range" min="1" max="50" value="7" class="slider" id="leaf-length">
+            <input type="range" min="1" max="50" value="10" class="slider" id="leaf-length">
           </label>
         </li>
         <li>
           <label>leaf width
-            <input type="range" min="1" max="50" value="10" class="slider" id="leaf-width">
+            <input type="range" min="1" max="50" value="3" class="slider" id="leaf-width">
           </label>
         </li>
       </ul>

@@ -5,7 +5,7 @@ body
   height: 100vh
   overflow: hidden
 
-  background-color: rgba(139, 180, 148, 0.658)
+  background-color: $white
 
   #tree-generator-container
     display: flex
@@ -25,15 +25,21 @@ body
 
     .adjustments-container
       position: absolute
-      left: 15%
+      left: 10%
       top: 20%
+      min-width: 400px
+      max-height: 500px
+      overflow-y: scroll
       
       margin: auto
       padding: 50px
       z-index: 500
 
-      background-color: rgba(255, 255, 255, 0.705)
+      background-color: $milk
       border-radius: 1em
+
+      h1 
+        margin-bottom: 0.5em
 
       h3 
         margin-bottom: 0.25em
@@ -47,7 +53,7 @@ body
         justify-content: space-between
 
         text-transform: capitalize
-        
+
       
       @include slider
 
@@ -56,5 +62,5 @@ body
       width: 100vw
       min-height: 5em
       bottom: 0
-      background-color: black
+      background-color: $black-brown
 
