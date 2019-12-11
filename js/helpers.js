@@ -32,14 +32,14 @@ export const calculatePathEndPoint = (path, ratio = 100) => {
   return path.pointAt(path.length() * ratio / 100);
 };
 
-export const rotatePointOnEllipse = (midpoint, majorAxisLen, minorAxisLen, angle = 0, pointAngle = 90) => {
+export const getPointOnEllipse = (midpoint, majorAxisLen, minorAxisLen, angle = 0, pointAngle = 90) => {
   const x = (majorAxisLen / 2) * Math.cos(pointAngle) * Math.cos(angle) - (minorAxisLen / 2) * Math.sin(pointAngle) * Math.sin(angle) + midpoint.x;
   const y = (majorAxisLen / 2) * Math.cos(pointAngle) * Math.sin(angle) + (minorAxisLen / 2) * Math.sin(pointAngle) * Math.cos(angle) + midpoint.y;
 
   return { x, y };
 };
 
-export const angles = (num, originalAngle, change, range = 0, pattern = 'alternating') => {
+export const angles = (num, originalAngle, change, pattern = 'alternating', range = 0) => {
   const angles = [];
 
   switch (pattern) {
@@ -101,3 +101,8 @@ export const pointsAlongPath = (path, count, distribution = 'random', startRatio
   return points;
 };
 
+export const makeBezierCurve = (startPt, length, angle, controlPt) => {
+  const endPt = calculateLinearEndPoint(startPt, length, angle);
+
+  return `M ${startPt.x} ${startPt.y} Q ${controlPt.x} ${controlPt.y} ${endPt.x} ${endPt.y}`;
+};
