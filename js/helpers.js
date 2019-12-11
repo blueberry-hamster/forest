@@ -39,14 +39,39 @@ export const rotatePointOnEllipse = (midpoint, majorAxisLen, minorAxisLen, angle
   return { x, y };
 };
 
-export const branchAngles = (originalAngle, minAngleChange, maxAngleChange, num) => {
+export const angles = (num, originalAngle, change, range = 0, pattern = 'alternating') => {
   const angles = [];
-  for (let i = 0; i < num; i++) {
-    if (i % 2 == 0) {
-      angles.push(randomInt(originalAngle + minAngleChange, originalAngle + maxAngleChange));
-    } else {
-      angles.push(randomInt(originalAngle - minAngleChange, originalAngle - maxAngleChange));
-    }
+
+  switch (pattern) {
+    case 'up':
+      for (let i = 0; i < num; i++) {
+        let newAngle = originalAngle + change;
+        let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+        angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));       
+      }
+      break;
+
+    case 'down':
+      for (let i = 0; i < num; i++) {
+        let newAngle = originalAngle - change;
+        let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+        angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
+      }
+      break;
+  
+    default: // default is alternating
+      for (let i = 0; i < num; i++) {
+        if (i % 2 === 0) {
+          let newAngle = originalAngle - change;
+          let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+          angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
+        } else {
+          let newAngle = originalAngle + change;
+          let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+          angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
+        }
+      }
+      break;
   }
 
   return angles;
