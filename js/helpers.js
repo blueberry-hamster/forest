@@ -46,7 +46,7 @@ export const angles = (num, originalAngle, change, range = 0, pattern = 'alterna
     case 'up':
       for (let i = 0; i < num; i++) {
         let newAngle = originalAngle + change;
-        let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+        let newRange = [randomInt(newAngle - range, newAngle + range), randomInt(newAngle - range, newAngle + range)];
         angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));       
       }
       break;
@@ -54,7 +54,7 @@ export const angles = (num, originalAngle, change, range = 0, pattern = 'alterna
     case 'down':
       for (let i = 0; i < num; i++) {
         let newAngle = originalAngle - change;
-        let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+        let newRange = [randomInt(newAngle - range, newAngle + range), randomInt(newAngle - range, newAngle + range)];
         angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
       }
       break;
@@ -63,11 +63,11 @@ export const angles = (num, originalAngle, change, range = 0, pattern = 'alterna
       for (let i = 0; i < num; i++) {
         if (i % 2 === 0) {
           let newAngle = originalAngle - change;
-          let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+          let newRange = [randomInt(newAngle - range, newAngle + range), randomInt(newAngle - range, newAngle + range)];
           angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
         } else {
           let newAngle = originalAngle + change;
-          let newRange = [randomInt(newAngle - change, newAngle + change), randomInt(newAngle - change, newAngle + change)];
+          let newRange = [randomInt(newAngle - range, newAngle + range), randomInt(newAngle - range, newAngle + range)];
           angles.push(randomInt(Math.min(...newRange), Math.max(...newRange)));
         }
       }
@@ -77,14 +77,27 @@ export const angles = (num, originalAngle, change, range = 0, pattern = 'alterna
   return angles;
 };
 
-export const branchingPoints = (start, end, angle, num) => {
-  const length = distance(start, end);
-  const points = [];
-  // find the distances to branch out at
-  for (let i = 0; i < num - 1; i++) {
-    points.push(calculateEndPoint(start, randomInt(0, length), angle));
+export const pointsAlongPath = (path, count, distribution = 'random', startRatio = 0, endRatio = 100) => {
+  const length = path.length(),
+        start = startRatio * length / 100,
+        end = endRatio * length / 100,
+        points = [];
+
+  switch (distribution) {
+    case 'even':
+      const increment = (end - start) / count;
+      for (let i = 0; i < count; i += increment) {
+        points.push(path.pointAt(i));
+      }
+      break;
+  
+    default: // defaults to random
+      for (let i = 0; i < count; i ++) {
+        points.push(randomInt(start, end + 1));
+      }
+      break;
   }
-  points.push(calculateEndPoint(start, length, angle));
 
   return points;
 };
+
