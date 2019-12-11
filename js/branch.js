@@ -1,4 +1,5 @@
 import * as helpers from './helpers';
+import Leaf from './leaf';
 
 class Branch {
   constructor(canvas, startPt, length, angle, thickness, color, bend = 0, bendAngle = 90) {
@@ -19,17 +20,13 @@ class Branch {
     this.curve = helpers.makeBezierCurve(this.startPt, this.length, this.angle, this.controlPt);
   }
 
-  drawBasicBranch() {
+  drawBranch() {
     const branch = this.canvas.path(this.curve);
     branch.stroke({ color: this.color, width: this.thickness, linecap: 'round', linejoin: 'round' });
     branch.fill('none');
     branch.addClass('branch');
 
     return branch;
-  }
-
-  drawLeafyBranch() {
-    
   }
 }
 

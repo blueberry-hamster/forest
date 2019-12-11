@@ -77,7 +77,7 @@ export const angles = (num, originalAngle, change, pattern = 'alternating', rang
   return angles;
 };
 
-export const pointsAlongPath = (path, count, distribution = 'random', startRatio = 0, endRatio = 100) => {
+export const pointsAlongPath = (path, num, distribution = 'random', startRatio = 0, endRatio = 100) => {
   const length = path.length(),
         start = startRatio * length / 100,
         end = endRatio * length / 100,
@@ -85,14 +85,14 @@ export const pointsAlongPath = (path, count, distribution = 'random', startRatio
 
   switch (distribution) {
     case 'even':
-      const increment = (end - start) / count;
-      for (let i = 0; i < count; i += increment) {
+      const increment = (end - start) / num;
+      for (let i = 0; i < num; i += increment) {
         points.push(path.pointAt(i));
       }
       break;
   
     default: // defaults to random
-      for (let i = 0; i < count; i ++) {
+      for (let i = 0; i < num; i ++) {
         points.push(randomInt(start, end + 1));
       }
       break;
