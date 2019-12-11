@@ -19,7 +19,7 @@ class Branch {
     this.curve = helpers.makeBezierCurve(this.startPt, this.length, this.angle, this.controlPt);
   }
 
-  drawBranch() {
+  drawBasicBranch() {
     const branch = this.canvas.path(this.curve);
     branch.stroke({ color: this.color, width: this.thickness, linecap: 'round', linejoin: 'round' });
     branch.fill('none');
@@ -27,4 +27,10 @@ class Branch {
 
     return branch;
   }
+
+  drawLeafyBranch() {
+    
+  }
 }
+
+export default Branch;
