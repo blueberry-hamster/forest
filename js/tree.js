@@ -36,14 +36,13 @@ class Tree {
           leafSpread: params.leafSpread,
           
           // angle param
-          angle: params.angle,
-          angleChange: params.angleChange,
-          angleRange: params.angleRange,
+          leafAngle: params.leafAngle,
+          leafAngleChange: params.leafAngleChange + params.angle,
           anglePattern: params.anglePattern,
           
           // point param
-          ptStartRatio: params.ptStartRatio,
-          ptEndRatio: params.ptEndRatio,
+          leafStartRatio: params.leafStartRatio,
+          leafEndRatio: params.leafEndRatio,
           ptDistribution: params.ptDistribution
         }).drawLeafyBranch();
         this.tree.add(leafyBranch);
@@ -69,6 +68,10 @@ class Tree {
           leafLength: params.leafLength, 
           leafNum: params.leafNum, 
           leafSpread: params.leafSpread,
+          leafStartRatio: params.leafStartRatio,
+          leafEndRatio: params.leafEndRatio, 
+          leafAngle: params.leafAngle,
+          leafAngleChange: params.leafAngleChange,
           // angle params
           angle: currentAngle, 
           angleChange: params.angleChange, 

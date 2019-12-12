@@ -86,18 +86,20 @@ export const pointsAlongPath = (path, num, distribution = 'random', startRatio =
   switch (distribution) {
     case 'even':
       const increment = (end - start) / num;
-      for (let i = 0; i < num; i ++) {
+      for (let i = 0; i < num - 1; i ++) {
         points.push(path.pointAt(i * increment));
       }
       break;
   
     default: // defaults to random
-      for (let i = 0; i < num; i ++) {
+      for (let i = 0; i < num - 1; i ++) {
         const randLen = randomInt(start, end + 1);
         points.push(path.pointAt(randLen));
       }
       break;
-  }
+    }
+    
+    points.push(path.pointAt(length));
   return points;
 };
 

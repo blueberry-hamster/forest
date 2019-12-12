@@ -13,20 +13,19 @@ class LeafyBranch {
     this.leafNum = params.leafNum;
     this.leafSpread = params.leafSpread;
 
-    this.angle = params.angle;
-    this.angleChange = params.angleChange;
-    this.angleRange = params.angleRange;
+    this.leafAngle = params.leafAngle;
+    this.leafAngleChange = params.leafAngleChange;
     this.anglePattern = params.anglePattern;
 
-    this.ptStartRatio = params.ptStartRatio;
-    this.ptEndRatio = params.ptEndRatio;
+    this.leafStartRatio = params.leafStartRatio;
+    this.leafEndRatio = params.leafEndRatio;
     this.ptDistribution = params.ptDistribution;
 
     // calculate points and angles to itterate over
     
     // debugger
-    this.buddingPoints = helpers.pointsAlongPath(this.branch, this.leafDensity, this.ptDistribution, this.ptStartRatio, this.ptEndRatio);
-    this.angles = helpers.angles(this.leafDensity, this.angle, this.angleChange, this.anglePattern, this.angleRange);
+    this.buddingPoints = helpers.pointsAlongPath(this.branch, this.leafDensity, this.ptDistribution, this.leafStartRatio, this.leafEndRatio);
+    this.angles = helpers.angles(this.leafDensity, this.leafAngle, this.leafAngleChange, this.leafAnglePattern, this.angleRange);
   }
 
   drawLeafyBranch() {

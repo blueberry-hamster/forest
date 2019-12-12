@@ -269,7 +269,7 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
     case 'even':
       var increment = (end - start) / num;
 
-      for (var i = 0; i < num; i++) {
+      for (var i = 0; i < num - 1; i++) {
         points.push(path.pointAt(i * increment));
       }
 
@@ -277,7 +277,7 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
 
     default:
       // defaults to random
-      for (var _i3 = 0; _i3 < num; _i3++) {
+      for (var _i3 = 0; _i3 < num - 1; _i3++) {
         var randLen = randomInt(start, end + 1);
         points.push(path.pointAt(randLen));
       }
@@ -285,6 +285,7 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
       break;
   }
 
+  points.push(path.pointAt(length));
   return points;
 };
 var makeBezierCurve = function makeBezierCurve(startPt, length, angle, controlPt) {
@@ -401,17 +402,16 @@ function () {
     this.leafLength = params.leafLength;
     this.leafNum = params.leafNum;
     this.leafSpread = params.leafSpread;
-    this.angle = params.angle;
-    this.angleChange = params.angleChange;
-    this.angleRange = params.angleRange;
+    this.leafAngle = params.leafAngle;
+    this.leafAngleChange = params.leafAngleChange;
     this.anglePattern = params.anglePattern;
-    this.ptStartRatio = params.ptStartRatio;
-    this.ptEndRatio = params.ptEndRatio;
+    this.leafStartRatio = params.leafStartRatio;
+    this.leafEndRatio = params.leafEndRatio;
     this.ptDistribution = params.ptDistribution; // calculate points and angles to itterate over
     // debugger
 
-    this.buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](this.branch, this.leafDensity, this.ptDistribution, this.ptStartRatio, this.ptEndRatio);
-    this.angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](this.leafDensity, this.angle, this.angleChange, this.anglePattern, this.angleRange);
+    this.buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](this.branch, this.leafDensity, this.ptDistribution, this.leafStartRatio, this.leafEndRatio);
+    this.angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](this.leafDensity, this.leafAngle, this.leafAngleChange, this.leafAnglePattern, this.angleRange);
   }
 
   _createClass(LeafyBranch, [{
@@ -454,30 +454,34 @@ var params = {
     x: 500,
     y: 900
   },
-  levels: 6,
-  layerLenRatio: 80,
-  layerWidthRatio: 80,
+  levels: 5,
+  layerLenRatio: 75,
+  layerWidthRatio: 60,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
-  branchDensity: 2,
-  branchThickness: 20,
+  branchDensity: 3,
+  branchThickness: 15,
   branchLength: 200,
-  branchBendyness: 30,
+  branchBendyness: 10,
   branchBendPlacement: 90,
   // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.65)',
-  leafDensity: 4,
-  leafWidth: 3,
-  leafLength: 10,
+  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafDensity: 5,
+  leafWidth: 6,
+  leafLength: 6,
   leafNum: 1,
   leafSpread: 90,
+  leafStartRatio: 0,
+  leafEndRatio: 100,
+  leafAngle: 30,
+  leafAngleChange: 0,
   // angle params
   angle: 90,
   angleChange: 15,
-  angleRange: 10,
+  angleRange: 45,
   anglePattern: 'alternating',
   // point params
-  ptStartRatio: 60,
+  ptStartRatio: 40,
   ptEndRatio: 100,
   ptDistribution: 'random'
 };
@@ -555,13 +559,12 @@ function () {
             leafNum: params.leafNum,
             leafSpread: params.leafSpread,
             // angle param
-            angle: params.angle,
-            angleChange: params.angleChange,
-            angleRange: params.angleRange,
+            leafAngle: params.leafAngle,
+            leafAngleChange: params.leafAngleChange + params.angle,
             anglePattern: params.anglePattern,
             // point param
-            ptStartRatio: params.ptStartRatio,
-            ptEndRatio: params.ptEndRatio,
+            leafStartRatio: params.leafStartRatio,
+            leafEndRatio: params.leafEndRatio,
             ptDistribution: params.ptDistribution
           }).drawLeafyBranch();
 
@@ -589,6 +592,10 @@ function () {
             leafLength: params.leafLength,
             leafNum: params.leafNum,
             leafSpread: params.leafSpread,
+            leafStartRatio: params.leafStartRatio,
+            leafEndRatio: params.leafEndRatio,
+            leafAngle: params.leafAngle,
+            leafAngleChange: params.leafAngleChange,
             // angle params
             angle: currentAngle,
             angleChange: params.angleChange,
