@@ -12,12 +12,12 @@ class Branch {
     this.bend = bend;
     this.bendAngle = bendAngle;
     // calculated params
-    this.endPt = helpers.calculateLinearEndPoint(this.startPt, this.length, this.angle);
-    this.midPt = helpers.midpointBetweenTwoPoints(this.startPt, this.endPt);
+    this.endPt = helpers.calculateLinearEndPoint(startPt, length, angle);
+    this.midPt = helpers.midpointBetweenTwoPoints(startPt, endPt);
     this.controlPt = bend === 0 ? 
-      this.midPt : 
-      helpers.getPointOnEllipse(this.midPt, this.length, (this.length * bend / 100), this.angle, this.bendAngle);
-    this.curve = helpers.makeBezierCurve(this.startPt, this.length, this.angle, this.controlPt);
+      midPt : 
+      helpers.getPointOnEllipse(midPt, length, (length * bend / 100), angle, bendAngle);
+    this.curve = helpers.makeBezierCurve(startPt, length, angle, controlPt);
   }
 
   drawBranch() {
