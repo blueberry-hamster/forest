@@ -1,18 +1,18 @@
-import { SVG } from '@svgdotjs/svg.js';
-export const draw = SVG().addTo('#canvas').size(1000, 1000);
-
 import * as helpers from './helpers';
 import Branch from './branch';
 import LeafyBranch from './leafy_branch';
 
-export const Tree = class {
+import { SVG } from '@svgdotjs/svg.js';
+const draw = SVG().addTo('#canvas').size(1000, 1000);
+
+class Tree {
   constructor() {
-    this.tree = canvas.group().addClass('tree');
+    this.tree = draw.group().addClass('tree');
   }
 
   drawTree(params) {
     // base branch
-    const branch = Branch.new();
+    const branch = new Branch(draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement).drawBranch();
     this.tree.add(branch);
     
     // calculate points and angles to itterate over
@@ -22,50 +22,67 @@ export const Tree = class {
     // itterate over points and recurse
     buddingPoints.forEach((point, i) => {
       const currentAngle = angles[i];
-
-      if (layer <= 0) { // if it's the end, draw LEAVES
-        const leafyBranch = LeafyBranch.new(draw, branch,
-          // leaf params
-          params.leafColor, params.leafDensity, params.leafWidth, params.leafLength, params.leafNum, params.leafSpread, 
-          // angle params
-          params.angle, params.angleChange, params.angleRange, params.anglePattern, 
-          // point params
-          params.ptStartRatio, params.ptEndRatio, params.ptDistribution);
+      
+      if (params.levels === 0) { // if it's the end, draw LEAVES
+        const leafyBranch = new LeafyBranch({ 
+          canvas: draw, 
+          branch,
+          // leaf param
+          leafColor: params.leafColor,
+          leafDensity: params.leafDensity,
+          leafWidth: params.leafWidth,
+          leafLength: params.leafLength,
+          leafNum: params.leafNum,
+          leafSpread: params.leafSpread,
+          
+          // angle param
+          angle: params.angle,
+          angleChange: params.angleChange,
+          angleRange: params.angleRange,
+          anglePattern: params.anglePattern,
+          
+          // point param
+          ptStartRatio: params.ptStartRatio,
+          ptEndRatio: params.ptEndRatio,
+          ptDistribution: params.ptDistribution
+        }).drawLeafyBranch();
         this.tree.add(leafyBranch);
+        return leafyBranch;
         
       } else { // if not the end, draw BRANCHES
         const nextParams = {
-          canvas, 
           startPt: point,
-          levels: levels - 1, 
-          layerLenRatio, 
-          layerWidthRatio,
+          levels: params.levels - 1, 
+          layerLenRatio: params.layerLenRatio, 
+          layerWidthRatio: params.layerWidthRatio,
           // branch params
-          branchColor, 
-          branchDensity, 
-          branchThickness: branchThickness * layerWidthFalloff / 100, 
-          branchLength: branchLength * layerLenRatio / 100,
-          branchBendyness, 
-          branchBendPlacement,
+          branchColor: params.branchColor, 
+          branchDensity: params.branchDensity, 
+          branchThickness: params.branchThickness * params.layerWidthFalloff / 100, 
+          branchLength: params.branchLength * params.layerLenRatio / 100,
+          branchBendyness: params.branchBendyness, 
+          branchBendPlacement: params.branchBendPlacement,
           // leaf params
-          leafColor, 
-          leafDensity, 
-          leafWidth, 
-          leafLength, 
-          leafNum, 
-          leafSpread,
+          leafColor: params.leafColor, 
+          leafDensity: params.leafDensity, 
+          leafWidth: params.leafWidth, 
+          leafLength: params.leafLength, 
+          leafNum: params.leafNum, 
+          leafSpread: params.leafSpread,
           // angle params
           angle: currentAngle, 
-          angleChange, 
-          angleRange, 
-          anglePattern,
+          angleChange: params.angleChange, 
+          angleRange: params.angleRange, 
+          anglePattern: params.anglePattern,
           // point params
-          ptStartRatio, 
-          ptEndRatio, 
-          ptDistribution
+          ptStartRatio: params.ptStartRatio, 
+          ptEndRatio: params.ptEndRatio, 
+          ptDistribution: params.ptDistribution
         };
-        this.drawTree(nextParams);
+        return this.drawTree(nextParams);
       }
     });
   }
-};
+}
+
+export default Tree;

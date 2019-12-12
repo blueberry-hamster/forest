@@ -23,16 +23,20 @@ class LeafyBranch {
     this.ptDistribution = params.ptDistribution;
 
     // calculate points and angles to itterate over
-    this.buddingPoints = helpers.pointsAlongPath(params.branch, params.branchDensity, params.ptDistribution, params.ptStartRatio, params.ptEndRatio);
-    this.angles = helpers.angles(params.branchDensity, params.angle, params.angleChange, params.anglePattern, params.angleRange);
+    
+    // debugger
+    this.buddingPoints = helpers.pointsAlongPath(this.branch, this.leafDensity, this.ptDistribution, this.ptStartRatio, this.ptEndRatio);
+    this.angles = helpers.angles(this.leafDensity, this.angle, this.angleChange, this.anglePattern, this.angleRange);
   }
 
   drawLeafyBranch() {
-    buddingPoints.forEach((point, i) => {
-      const currentAngle = angles[i];
-
-      Leaf.new(this.canvas, this.leafColor, this.leafWidth, this.leafLength, point, currentAngle, this.leafNum, this.leafSpread);
-    });
-
+    const leaves = this.canvas.group().addClass('leaves');
+    this.buddingPoints.forEach((point, i) => {
+      const currentAngle = this.angles[i];
+      let leaf = new Leaf(this.canvas, this.leafColor, this.leafWidth, this.leafLength, point, currentAngle, this.leafNum, this.leafSpread).drawLeaves();
+      leaves.add(leaf);
+    }, this);
   }
 }
+
+export default LeafyBranch;

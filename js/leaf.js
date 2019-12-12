@@ -10,11 +10,14 @@ class Leaf {
     this.angle = angle;
     this.num = num;
     this.spread = spread;
+
+    this.leaves = this.canvas.group().addClass('leaf-group');
   }
 
   drawLeaf(angle = this.angle) {
     const endPt = helpers.calculateLinearEndPoint(this.startPt, this.length, angle);
     const leaf = this.canvas.line(this.startPt.x, this.startPt.y, endPt.x, endPt.y);
+    leaf.stroke({ color: this.color, width: this.width, linecap: 'round' });
     
     return leaf.addClass('leaf');
   }
@@ -23,13 +26,12 @@ class Leaf {
     if (this.num === 1) return this.drawLeaf();
     
     const increment = this.spread / this.num;
-    const startAngle = this.angle - this.spread;
-    const leaves = [];
+    const startAngle = this.angle - (this.spread / 2);
 
     for (let i = 0; i < this.num; i++) {
-      leaves.push(this.drawLeaf(startAngle + i * increment));
+      this.leaves.add(this.drawLeaf(startAngle + i * increment));
     }
-    return leaves;
+    return this.leaves;
   }
 }
 

@@ -86,6 +86,354 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./js/branch.js":
+/*!**********************!*\
+  !*** ./js/branch.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./js/helpers.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Branch =
+/*#__PURE__*/
+function () {
+  function Branch(canvas, startPt, length, angle, thickness, color) {
+    var bend = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
+    var bendAngle = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 90;
+
+    _classCallCheck(this, Branch);
+
+    this.canvas = canvas;
+    this.startPt = startPt;
+    this.length = length;
+    this.angle = angle;
+    this.thickness = thickness;
+    this.color = color;
+    this.bend = bend;
+    this.bendAngle = bendAngle; // calculated params
+
+    this.endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](startPt, length, angle);
+    this.midPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["midpointBetweenTwoPoints"](startPt, this.endPt);
+    this.controlPt = bend === 0 ? this.midPt : _helpers__WEBPACK_IMPORTED_MODULE_0__["getPointOnEllipse"](this.midPt, length, length * bend / 100, angle, bendAngle);
+    this.curve = _helpers__WEBPACK_IMPORTED_MODULE_0__["makeBezierCurve"](startPt, length, angle, this.controlPt);
+  }
+
+  _createClass(Branch, [{
+    key: "drawBranch",
+    value: function drawBranch() {
+      var branch = this.canvas.path(this.curve);
+      branch.stroke({
+        color: this.color,
+        width: this.thickness,
+        linecap: 'round',
+        linejoin: 'round'
+      });
+      branch.fill('none');
+      branch.addClass('branch');
+      return branch;
+    }
+  }]);
+
+  return Branch;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Branch);
+
+/***/ }),
+
+/***/ "./js/helpers.js":
+/*!***********************!*\
+  !*** ./js/helpers.js ***!
+  \***********************/
+/*! exports provided: camelToKebab, distanceBetweenTwoPoints, midpointBetweenTwoPoints, randomInt, calculateLinearEndPoint, calculatePathEndPoint, getPointOnEllipse, angles, pointsAlongPath, makeBezierCurve */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camelToKebab", function() { return camelToKebab; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distanceBetweenTwoPoints", function() { return distanceBetweenTwoPoints; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midpointBetweenTwoPoints", function() { return midpointBetweenTwoPoints; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateLinearEndPoint", function() { return calculateLinearEndPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculatePathEndPoint", function() { return calculatePathEndPoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPointOnEllipse", function() { return getPointOnEllipse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "angles", function() { return angles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pointsAlongPath", function() { return pointsAlongPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeBezierCurve", function() { return makeBezierCurve; });
+var camelToKebab = function camelToKebab(string) {
+  return string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+};
+var distanceBetweenTwoPoints = function distanceBetweenTwoPoints(point1, point2) {
+  return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+};
+var midpointBetweenTwoPoints = function midpointBetweenTwoPoints(point1, point2) {
+  return {
+    x: (point1.x + point2.x) / 2,
+    y: (point1.y + point2.y) / 2
+  };
+};
+var randomInt = function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+};
+var calculateLinearEndPoint = function calculateLinearEndPoint(start, length, angle) {
+  var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
+  var radian = angle * Math.PI / 180,
+      newLen = length * ratio / 100;
+  return {
+    x: start.x - newLen * Math.cos(radian),
+    y: start.y - newLen * Math.sin(radian)
+  };
+};
+var calculatePathEndPoint = function calculatePathEndPoint(path) {
+  var ratio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+  return path.pointAt(path.length() * ratio / 100);
+};
+var getPointOnEllipse = function getPointOnEllipse(midpoint, majorAxisLen, minorAxisLen) {
+  var angle = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  var pointAngle = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 90;
+  var x = majorAxisLen / 2 * Math.cos(pointAngle) * Math.cos(angle) - minorAxisLen / 2 * Math.sin(pointAngle) * Math.sin(angle) + midpoint.x;
+  var y = majorAxisLen / 2 * Math.cos(pointAngle) * Math.sin(angle) + minorAxisLen / 2 * Math.sin(pointAngle) * Math.cos(angle) + midpoint.y;
+  return {
+    x: x,
+    y: y
+  };
+};
+var angles = function angles(num, originalAngle, change) {
+  var pattern = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'alternating';
+  var range = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+  var angles = [];
+
+  switch (pattern) {
+    case 'up':
+      for (var i = 0; i < num; i++) {
+        var newAngle = originalAngle + change;
+        var newRange = [randomInt(newAngle - range, newAngle + range), randomInt(newAngle - range, newAngle + range)];
+        angles.push(randomInt(Math.min.apply(Math, newRange), Math.max.apply(Math, newRange)));
+      }
+
+      break;
+
+    case 'down':
+      for (var _i = 0; _i < num; _i++) {
+        var _newAngle = originalAngle - change;
+
+        var _newRange = [randomInt(_newAngle - range, _newAngle + range), randomInt(_newAngle - range, _newAngle + range)];
+        angles.push(randomInt(Math.min.apply(Math, _newRange), Math.max.apply(Math, _newRange)));
+      }
+
+      break;
+
+    default:
+      // default is alternating
+      for (var _i2 = 0; _i2 < num; _i2++) {
+        if (_i2 % 2 === 0) {
+          var _newAngle2 = originalAngle - change;
+
+          var _newRange2 = [randomInt(_newAngle2 - range, _newAngle2 + range), randomInt(_newAngle2 - range, _newAngle2 + range)];
+          angles.push(randomInt(Math.min.apply(Math, _newRange2), Math.max.apply(Math, _newRange2)));
+        } else {
+          var _newAngle3 = originalAngle + change;
+
+          var _newRange3 = [randomInt(_newAngle3 - range, _newAngle3 + range), randomInt(_newAngle3 - range, _newAngle3 + range)];
+          angles.push(randomInt(Math.min.apply(Math, _newRange3), Math.max.apply(Math, _newRange3)));
+        }
+      }
+
+      break;
+  }
+
+  return angles;
+};
+var pointsAlongPath = function pointsAlongPath(path, num) {
+  var distribution = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'random';
+  var startRatio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+  var endRatio = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 100;
+  var length = path.length(),
+      start = startRatio * length / 100,
+      end = endRatio * length / 100,
+      points = [];
+
+  switch (distribution) {
+    case 'even':
+      var increment = (end - start) / num;
+
+      for (var i = 0; i < num; i += increment) {
+        points.push(path.pointAt(i));
+      }
+
+      break;
+
+    default:
+      // defaults to random
+      for (var _i3 = 0; _i3 < num; _i3++) {
+        points.push(randomInt(start, end + 1));
+      }
+
+      break;
+  }
+
+  return points;
+};
+var makeBezierCurve = function makeBezierCurve(startPt, length, angle, controlPt) {
+  var endPt = calculateLinearEndPoint(startPt, length, angle);
+  return "M ".concat(startPt.x, " ").concat(startPt.y, " Q ").concat(controlPt.x, " ").concat(controlPt.y, " ").concat(endPt.x, " ").concat(endPt.y);
+};
+
+/***/ }),
+
+/***/ "./js/leaf.js":
+/*!********************!*\
+  !*** ./js/leaf.js ***!
+  \********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./js/helpers.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Leaf =
+/*#__PURE__*/
+function () {
+  function Leaf(canvas, color, width, length, startPt, angle) {
+    var num = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 1;
+    var spread = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 30;
+
+    _classCallCheck(this, Leaf);
+
+    this.canvas = canvas;
+    this.color = color;
+    this.width = width;
+    this.length = length;
+    this.startPt = startPt;
+    this.angle = angle;
+    this.num = num;
+    this.spread = spread;
+    this.leaves = this.canvas.group().addClass('leaf-group');
+  }
+
+  _createClass(Leaf, [{
+    key: "drawLeaf",
+    value: function drawLeaf() {
+      var angle = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.angle;
+      var endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](this.startPt, this.length, angle);
+      var leaf = this.canvas.line(this.startPt.x, this.startPt.y, endPt.x, endPt.y);
+      leaf.stroke({
+        color: this.color,
+        width: this.width,
+        linecap: 'round'
+      });
+      return leaf.addClass('leaf');
+    }
+  }, {
+    key: "drawLeaves",
+    value: function drawLeaves() {
+      if (this.num === 1) return this.drawLeaf();
+      var increment = this.spread / this.num;
+      var startAngle = this.angle - this.spread / 2;
+
+      for (var i = 0; i < this.num; i++) {
+        this.leaves.add(this.drawLeaf(startAngle + i * increment));
+      }
+
+      return this.leaves;
+    }
+  }]);
+
+  return Leaf;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Leaf);
+
+/***/ }),
+
+/***/ "./js/leafy_branch.js":
+/*!****************************!*\
+  !*** ./js/leafy_branch.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./js/helpers.js");
+/* harmony import */ var _leaf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./leaf */ "./js/leaf.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var LeafyBranch =
+/*#__PURE__*/
+function () {
+  function LeafyBranch(params) {
+    _classCallCheck(this, LeafyBranch);
+
+    this.canvas = params.canvas;
+    this.branch = params.branch;
+    this.leafColor = params.leafColor;
+    this.leafDensity = params.leafDensity;
+    this.leafWidth = params.leafWidth;
+    this.leafLength = params.leafLength;
+    this.leafNum = params.leafNum;
+    this.leafSpread = params.leafSpread;
+    this.angle = params.angle;
+    this.angleChange = params.angleChange;
+    this.angleRange = params.angleRange;
+    this.anglePattern = params.anglePattern;
+    this.ptStartRatio = params.ptStartRatio;
+    this.ptEndRatio = params.ptEndRatio;
+    this.ptDistribution = params.ptDistribution; // calculate points and angles to itterate over
+    // debugger
+
+    this.buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](this.branch, this.leafDensity, this.ptDistribution, this.ptStartRatio, this.ptEndRatio);
+    this.angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](this.leafDensity, this.angle, this.angleChange, this.anglePattern, this.angleRange);
+  }
+
+  _createClass(LeafyBranch, [{
+    key: "drawLeafyBranch",
+    value: function drawLeafyBranch() {
+      var _this = this;
+
+      var leaves = this.canvas.group().addClass('leaves');
+      this.buddingPoints.forEach(function (point, i) {
+        var currentAngle = _this.angles[i];
+        var leaf = new _leaf__WEBPACK_IMPORTED_MODULE_1__["default"](_this.canvas, _this.leafColor, _this.leafWidth, _this.leafLength, point, currentAngle, _this.leafNum, _this.leafSpread).drawLeaves();
+        leaves.add(leaf);
+      }, this);
+    }
+  }]);
+
+  return LeafyBranch;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (LeafyBranch);
+
+/***/ }),
+
 /***/ "./js/main.js":
 /*!********************!*\
   !*** ./js/main.js ***!
@@ -95,175 +443,171 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _tree_builder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tree_builder */ "./js/tree_builder.js");
+/* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tree */ "./js/tree.js");
 /* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
-
+// import { drawLayer, draw, tree } from './tree_builder';
 
 
 var params = {
-  start: {
+  startPt: {
     x: 500,
     y: 900
   },
-  length: 200,
-  angle: 90,
-  width: 20,
-  layer: 6,
-  buddingTendency: 25,
-  branchDensity: 3,
-  branchMinAngle: 20,
-  branchMaxAngle: 20,
-  leafDensity: 5,
-  minLeafAngle: 30,
-  maxLeafAngle: 60,
-  leafLength: 10,
-  leafWidth: 3,
-  layerAngleMin: -30,
-  layerAngleMax: 30,
-  layerLengthFalloff: 80,
-  layerWidthFalloff: 65,
+  levels: 1,
+  layerLenRatio: 80,
+  layerWidthRatio: 60,
+  // branch params
+  branchColor: 'rgba(31, 36, 4, 0.2)',
+  branchDensity: 2,
+  branchThickness: 20,
+  branchLength: 200,
+  branchBendyness: 30,
+  branchBendPlacement: 90,
+  // leaf params
   leafColor: 'rgba(16, 151, 16, 0.65)',
-  branchColor: 'rgb(31, 36, 4)'
+  leafDensity: 4,
+  leafWidth: 3,
+  leafLength: 10,
+  leafNum: 3,
+  leafSpread: 30,
+  // angle params
+  angle: 90,
+  angleChange: 15,
+  angleRange: 10,
+  anglePattern: 'alternating',
+  // point params
+  ptStartRatio: 30,
+  ptEndRatio: 100,
+  ptDistribution: 'even'
 };
-Object(_tree_builder__WEBPACK_IMPORTED_MODULE_0__["drawLayer"])(params);
-Object.keys(params).forEach(function (param) {
-  if (!document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)))) return;
-  var windowEl = document.getElementById("".concat(Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["camelToKebab"])(param)));
-  windowEl.addEventListener('change', function (e) {
-    params[param] = windowEl.value;
-    _tree_builder__WEBPACK_IMPORTED_MODULE_0__["tree"].clear();
-    Object(_tree_builder__WEBPACK_IMPORTED_MODULE_0__["drawLayer"])(params);
-  });
-});
+new _tree__WEBPACK_IMPORTED_MODULE_0__["default"]().drawTree(params); // Object.keys(params).forEach(param => {
+//   if (!document.getElementById(`${camelToKebab(param)}`)) return;
+//   let windowEl = document.getElementById(`${camelToKebab(param)}`);
+//   windowEl.addEventListener('change', e => {
+//     params[param] = windowEl.value;
+//     tree.clear();
+//     drawLayer(params);
+//   });
+// });
 
 /***/ }),
 
-/***/ "./js/tree_builder.js":
-/*!****************************!*\
-  !*** ./js/tree_builder.js ***!
-  \****************************/
-/*! exports provided: draw, tree, drawLayer */
+/***/ "./js/tree.js":
+/*!********************!*\
+  !*** ./js/tree.js ***!
+  \********************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw", function() { return draw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree", function() { return tree; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "drawLayer", function() { return drawLayer; });
-/* harmony import */ var _svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @svgdotjs/svg.js */ "./node_modules/@svgdotjs/svg.js/dist/svg.esm.js");
-/* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./js/helpers.js");
+/* harmony import */ var _branch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./branch */ "./js/branch.js");
+/* harmony import */ var _leafy_branch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./leafy_branch */ "./js/leafy_branch.js");
+/* harmony import */ var _svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @svgdotjs/svg.js */ "./node_modules/@svgdotjs/svg.js/dist/svg.esm.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_0__["SVG"])().addTo('#canvas').size(1000, 1000);
- //---------------------------------------------------------------------------------------------------------------------
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function drawBranch(start, length, angle, thickness, color) {
-  var end = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle);
-  var mid = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["midpoint"])(start, end);
-  var randPt = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["randomPointInEllipse"])(mid, length, length / 10); // const branch = draw.line(start.x, start.y, end.x, end.y);
-  // branch.stroke({ color: color, width: thickness });
-
-  var branch = draw.path("M ".concat(start.x, " ").concat(start.y, " Q ").concat(randPt.x, " ").concat(randPt.y, " ").concat(end.x, " ").concat(end.y));
-  branch.stroke({
-    color: color,
-    width: thickness,
-    linecap: 'round',
-    linejoin: 'round'
-  });
-  branch.fill('none');
-  return branch.addClass('branch');
-}
-
-function drawLeaf(start, length, width, angle, color) {
-  // FIXME add different leaves
-  var end = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle);
-  var leaf = draw.line(start.x, start.y, end.x, end.y); // const vein = draw.line(start.x, start.y, end.x, end.y);
-
-  leaf.stroke({
-    color: color,
-    width: width,
-    linecap: 'round'
-  }); // vein.stroke({ color: color, width: 1, linecap: 'round' });
-
-  return leaf.addClass('leaf');
-} //---------------------------------------------------------------------------------------------------------------------
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
-var tree = draw.group().addClass('tree');
-function drawLayer(_ref) {
-  var start = _ref.start,
-      length = _ref.length,
-      angle = _ref.angle,
-      width = _ref.width,
-      layer = _ref.layer,
-      buddingTendency = _ref.buddingTendency,
-      branchDensity = _ref.branchDensity,
-      branchMinAngle = _ref.branchMinAngle,
-      branchMaxAngle = _ref.branchMaxAngle,
-      leafDensity = _ref.leafDensity,
-      minLeafAngle = _ref.minLeafAngle,
-      maxLeafAngle = _ref.maxLeafAngle,
-      leafLength = _ref.leafLength,
-      leafWidth = _ref.leafWidth,
-      layerAngleMin = _ref.layerAngleMin,
-      layerAngleMax = _ref.layerAngleMax,
-      layerLengthFalloff = _ref.layerLengthFalloff,
-      layerWidthFalloff = _ref.layerWidthFalloff,
-      leafColor = _ref.leafColor,
-      branchColor = _ref.branchColor;
-  var leaves = draw.group().addClass('leaves-layer'); // first base branch
 
-  tree.add(drawBranch(start, length, angle, width, branchColor));
-  var branchStart = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle, buddingTendency); // how branches and leaves are placed 
 
-  var end = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["calculateEndPoint"])(start, length, angle),
-      buddingPoints = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["branchingPoints"])(branchStart, end, angle, branchDensity),
-      // how dense the branches will be
-  angles = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["branchAngles"])(angle, branchMinAngle, branchMaxAngle, branchDensity); // min and max change of branch angles
 
-  buddingPoints.forEach(function (point, i) {
-    var currentAngle = angles[i];
+var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_3__["SVG"])().addTo('#canvas').size(1000, 1000);
 
-    if (layer <= 0) {
-      // if it's the end, draw LEAVES
-      buddingPoints = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["branchingPoints"])(branchStart, end, angle, leafDensity); //leaf density
+var Tree =
+/*#__PURE__*/
+function () {
+  function Tree() {
+    _classCallCheck(this, Tree);
 
-      angles = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["branchAngles"])(angle, minLeafAngle, maxLeafAngle, leafDensity); //min and max change of leaf angles
+    this.tree = draw.group().addClass('tree');
+  }
+
+  _createClass(Tree, [{
+    key: "drawTree",
+    value: function drawTree(params) {
+      var _this = this;
+
+      // base branch
+      var branch = new _branch__WEBPACK_IMPORTED_MODULE_1__["default"](draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement).drawBranch();
+      this.tree.add(branch); // calculate points and angles to itterate over
+
+      var buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](branch, params.branchDensity, params.ptDistribution, params.ptStartRatio, params.ptEndRatio),
+          angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](params.branchDensity, params.angle, params.angleChange, params.anglePattern, params.angleRange); // itterate over points and recurse
 
       buddingPoints.forEach(function (point, i) {
         var currentAngle = angles[i];
-        leaves.add(drawLeaf(point, leafLength, leafWidth, currentAngle, leafColor)); //leaf width and length, eventually shape?
-      });
-    } else {
-      // if not the end, draw BRANCHES
-      var nextAngle = Object(_tree_helpers__WEBPACK_IMPORTED_MODULE_1__["randomInt"])(currentAngle + layerAngleMin, currentAngle + layerAngleMax); //angle change top, bottom DEGREE
 
-      var params = {
-        start: point,
-        length: length * layerLengthFalloff / 100,
-        angle: nextAngle,
-        width: width * layerWidthFalloff / 100,
-        layer: layer - 1,
-        buddingTendency: buddingTendency,
-        branchDensity: branchDensity,
-        branchMinAngle: branchMinAngle,
-        branchMaxAngle: branchMaxAngle,
-        leafDensity: leafDensity,
-        minLeafAngle: minLeafAngle,
-        maxLeafAngle: maxLeafAngle,
-        leafLength: leafLength,
-        leafWidth: leafWidth,
-        layerAngleMin: layerAngleMin,
-        layerAngleMax: layerAngleMax,
-        layerLengthFalloff: layerLengthFalloff,
-        layerWidthFalloff: layerWidthFalloff,
-        leafColor: leafColor,
-        branchColor: branchColor
-      };
-      drawLayer(params); //branch layer width fall-off FRACTION, length layer fall-off FRACTION
+        if (params.levels === 0) {
+          // if it's the end, draw LEAVES
+          var leafyBranch = new _leafy_branch__WEBPACK_IMPORTED_MODULE_2__["default"]({
+            canvas: draw,
+            branch: branch,
+            // leaf param
+            leafColor: params.leafColor,
+            leafDensity: params.leafDensity,
+            leafWidth: params.leafWidth,
+            leafLength: params.leafLength,
+            leafNum: params.leafNum,
+            leafSpread: params.leafSpread,
+            // angle param
+            angle: params.angle,
+            angleChange: params.angleChange,
+            angleRange: params.angleRange,
+            anglePattern: params.anglePattern,
+            // point param
+            ptStartRatio: params.ptStartRatio,
+            ptEndRatio: params.ptEndRatio,
+            ptDistribution: params.ptDistribution
+          }).drawLeafyBranch();
+
+          _this.tree.add(leafyBranch);
+
+          return leafyBranch;
+        } else {
+          // if not the end, draw BRANCHES
+          var nextParams = {
+            startPt: point,
+            levels: params.levels - 1,
+            layerLenRatio: params.layerLenRatio,
+            layerWidthRatio: params.layerWidthRatio,
+            // branch params
+            branchColor: params.branchColor,
+            branchDensity: params.branchDensity,
+            branchThickness: params.branchThickness * params.layerWidthFalloff / 100,
+            branchLength: params.branchLength * params.layerLenRatio / 100,
+            branchBendyness: params.branchBendyness,
+            branchBendPlacement: params.branchBendPlacement,
+            // leaf params
+            leafColor: params.leafColor,
+            leafDensity: params.leafDensity,
+            leafWidth: params.leafWidth,
+            leafLength: params.leafLength,
+            leafNum: params.leafNum,
+            leafSpread: params.leafSpread,
+            // angle params
+            angle: currentAngle,
+            angleChange: params.angleChange,
+            angleRange: params.angleRange,
+            anglePattern: params.anglePattern,
+            // point params
+            ptStartRatio: params.ptStartRatio,
+            ptEndRatio: params.ptEndRatio,
+            ptDistribution: params.ptDistribution
+          };
+          return _this.drawTree(nextParams);
+        }
+      });
     }
-  });
-  tree.add(leaves);
-}
+  }]);
+
+  return Tree;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Tree);
 
 /***/ }),
 
