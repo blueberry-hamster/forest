@@ -58,7 +58,7 @@ class Tree {
           // branch params
           branchColor: params.branchColor, 
           branchDensity: params.branchDensity, 
-          branchThickness: params.branchThickness * params.layerWidthFalloff / 100, 
+          branchThickness: params.branchThickness * params.layerWidthRatio / 100, 
           branchLength: params.branchLength * params.layerLenRatio / 100,
           branchBendyness: params.branchBendyness, 
           branchBendPlacement: params.branchBendPlacement,

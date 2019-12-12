@@ -4,11 +4,11 @@ import { camelToKebab } from "./tree_helpers";
 
 const params = {
   startPt: { x: 500, y: 900 },
-  levels: 1,
+  levels: 6,
   layerLenRatio: 80,
-  layerWidthRatio: 60,
+  layerWidthRatio: 80,
   // branch params
-  branchColor: 'rgba(31, 36, 4, 0.2)',
+  branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 2,
   branchThickness: 20,
   branchLength: 200,
@@ -19,17 +19,17 @@ const params = {
   leafDensity: 4,
   leafWidth: 3,
   leafLength: 10,
-  leafNum: 3,
-  leafSpread: 30,
+  leafNum: 1,
+  leafSpread: 90,
   // angle params
   angle: 90,
   angleChange: 15,
   angleRange: 10,
   anglePattern: 'alternating',
   // point params
-  ptStartRatio: 30,
+  ptStartRatio: 60,
   ptEndRatio: 100,
-  ptDistribution: 'even'
+  ptDistribution: 'random'
 };
 
 new Tree().drawTree(params);

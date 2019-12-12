@@ -269,8 +269,8 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
     case 'even':
       var increment = (end - start) / num;
 
-      for (var i = 0; i < num; i += increment) {
-        points.push(path.pointAt(i));
+      for (var i = 0; i < num; i++) {
+        points.push(path.pointAt(i * increment));
       }
 
       break;
@@ -278,7 +278,8 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
     default:
       // defaults to random
       for (var _i3 = 0; _i3 < num; _i3++) {
-        points.push(randomInt(start, end + 1));
+        var randLen = randomInt(start, end + 1);
+        points.push(path.pointAt(randLen));
       }
 
       break;
@@ -453,11 +454,11 @@ var params = {
     x: 500,
     y: 900
   },
-  levels: 1,
+  levels: 6,
   layerLenRatio: 80,
-  layerWidthRatio: 60,
+  layerWidthRatio: 80,
   // branch params
-  branchColor: 'rgba(31, 36, 4, 0.2)',
+  branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 2,
   branchThickness: 20,
   branchLength: 200,
@@ -468,17 +469,17 @@ var params = {
   leafDensity: 4,
   leafWidth: 3,
   leafLength: 10,
-  leafNum: 3,
-  leafSpread: 30,
+  leafNum: 1,
+  leafSpread: 90,
   // angle params
   angle: 90,
   angleChange: 15,
   angleRange: 10,
   anglePattern: 'alternating',
   // point params
-  ptStartRatio: 30,
+  ptStartRatio: 60,
   ptEndRatio: 100,
-  ptDistribution: 'even'
+  ptDistribution: 'random'
 };
 new _tree__WEBPACK_IMPORTED_MODULE_0__["default"]().drawTree(params); // Object.keys(params).forEach(param => {
 //   if (!document.getElementById(`${camelToKebab(param)}`)) return;
@@ -577,7 +578,7 @@ function () {
             // branch params
             branchColor: params.branchColor,
             branchDensity: params.branchDensity,
-            branchThickness: params.branchThickness * params.layerWidthFalloff / 100,
+            branchThickness: params.branchThickness * params.layerWidthRatio / 100,
             branchLength: params.branchLength * params.layerLenRatio / 100,
             branchBendyness: params.branchBendyness,
             branchBendPlacement: params.branchBendPlacement,
