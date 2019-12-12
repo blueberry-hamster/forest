@@ -4,39 +4,38 @@ import { camelToKebab } from "./tree_helpers";
 
 const params = {
   startPt: { x: 500, y: 900 },
-  levels: 5,
+  levels: 0,
   layerLenRatio: 75,
-  layerWidthRatio: 60,
+  layerWidthRatio: 50,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
-  branchDensity: 3,
-  branchThickness: 15,
+  branchDensity: 2,
+  branchThickness: 40,
   branchLength: 200,
-  branchBendyness: 10,
-  branchBendPlacement: 90,
+  branchBendyness: 15,
+  branchBendPlacement: 30,
   // leaf params
   leafColor: 'rgba(16, 151, 16, 0.45)',
-  leafDensity: 5,
-  leafWidth: 6,
+  leafDensity: 10,
+  leafWidth: 3,
   leafLength: 6,
   leafNum: 1,
-  leafSpread: 90,
-  leafStartRatio: 0,
+  leafSpread: 120,
+  leafStartRatio: 50,
   leafEndRatio: 100,
-  leafAngle: 30,
-  leafAngleChange: 0,
+  leafAngleChange: 120,
   // angle params
   angle: 90,
-  angleChange: 15,
-  angleRange: 45,
+  angleChange: 25,
+  angleRange: 35,
   anglePattern: 'alternating',
   // point params
-  ptStartRatio: 40,
-  ptEndRatio: 100,
+  ptStartRatio: 0,
+  ptEndRatio: 90,
   ptDistribution: 'random'
 };
 
-new Tree().drawTree(params);
+new Tree(8, 500).drawTree(params);
 
 // Object.keys(params).forEach(param => {
 //   if (!document.getElementById(`${camelToKebab(param)}`)) return;

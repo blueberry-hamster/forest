@@ -6,13 +6,15 @@ import { SVG } from '@svgdotjs/svg.js';
 const draw = SVG().addTo('#canvas').size(1000, 1000);
 
 class Tree {
-  constructor() {
+  constructor(levels, startX) {
     this.tree = draw.group().addClass('tree');
+    this.levels = levels;
+    this.startX = startX;
   }
 
   drawTree(params) {
     // base branch
-    const branch = new Branch(draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement).drawBranch();
+    const branch = new Branch(draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement, this.startX).drawBranch();
     this.tree.add(branch);
     
     // calculate points and angles to itterate over
@@ -23,7 +25,7 @@ class Tree {
     buddingPoints.forEach((point, i) => {
       const currentAngle = angles[i];
       
-      if (params.levels === 0) { // if it's the end, draw LEAVES
+      if (params.levels === this.levels) { // if it's the end, draw LEAVES
         const leafyBranch = new LeafyBranch({ 
           canvas: draw, 
           branch,
@@ -36,8 +38,8 @@ class Tree {
           leafSpread: params.leafSpread,
           
           // angle param
-          leafAngle: params.leafAngle,
-          leafAngleChange: params.leafAngleChange + params.angle,
+          angle: params.angle,
+          leafAngleChange: params.leafAngleChange,
           anglePattern: params.anglePattern,
           
           // point param
@@ -51,13 +53,13 @@ class Tree {
       } else { // if not the end, draw BRANCHES
         const nextParams = {
           startPt: point,
-          levels: params.levels - 1, 
+          levels: params.levels + 1, 
           layerLenRatio: params.layerLenRatio, 
           layerWidthRatio: params.layerWidthRatio,
           // branch params
           branchColor: params.branchColor, 
           branchDensity: params.branchDensity, 
-          branchThickness: params.branchThickness * params.layerWidthRatio / 100, 
+          branchThickness: (params.branchThickness * params.layerWidthRatio / 100) * (this.levels - params.levels) / 5, 
           branchLength: params.branchLength * params.layerLenRatio / 100,
           branchBendyness: params.branchBendyness, 
           branchBendPlacement: params.branchBendPlacement,
@@ -70,7 +72,6 @@ class Tree {
           leafSpread: params.leafSpread,
           leafStartRatio: params.leafStartRatio,
           leafEndRatio: params.leafEndRatio, 
-          leafAngle: params.leafAngle,
           leafAngleChange: params.leafAngleChange,
           // angle params
           angle: currentAngle, 

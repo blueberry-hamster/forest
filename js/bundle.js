@@ -110,19 +110,23 @@ function () {
   function Branch(canvas, startPt, length, angle, thickness, color) {
     var bend = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
     var bendAngle = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 90;
+    var startX = arguments.length > 8 ? arguments[8] : undefined;
 
     _classCallCheck(this, Branch);
 
     this.canvas = canvas;
     this.startPt = startPt;
     this.length = length;
-    this.angle = angle;
-    this.thickness = thickness;
+    this.angle = angle; // debugger
+
     this.color = color;
     this.bend = bend;
-    this.bendAngle = bendAngle; // calculated params
+    this.bendAngle = [bendAngle, -1 * bendAngle][Math.floor(Math.random() * 2)]; // calculated params
 
-    this.endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](startPt, length, angle);
+    this.endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](startPt, length, angle); // this.distToCenter = 1 - ((Math.abs(startX - ((startPt.x + this.endPt.x) / 2)) + 0.01)/ 100);
+
+    this.thickness = thickness; // * (this.distToCenter)
+
     this.midPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["midpointBetweenTwoPoints"](startPt, this.endPt);
     this.controlPt = bend === 0 ? this.midPt : _helpers__WEBPACK_IMPORTED_MODULE_0__["getPointOnEllipse"](this.midPt, length, length * bend / 100, angle, bendAngle);
     this.curve = _helpers__WEBPACK_IMPORTED_MODULE_0__["makeBezierCurve"](startPt, length, angle, this.controlPt);
@@ -269,7 +273,7 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
     case 'even':
       var increment = (end - start) / num;
 
-      for (var i = 0; i < num - 1; i++) {
+      for (var i = 1; i <= num; i++) {
         points.push(path.pointAt(i * increment));
       }
 
@@ -282,10 +286,10 @@ var pointsAlongPath = function pointsAlongPath(path, num) {
         points.push(path.pointAt(randLen));
       }
 
+      points.push(path.pointAt(length));
       break;
   }
 
-  points.push(path.pointAt(length));
   return points;
 };
 var makeBezierCurve = function makeBezierCurve(startPt, length, angle, controlPt) {
@@ -402,7 +406,7 @@ function () {
     this.leafLength = params.leafLength;
     this.leafNum = params.leafNum;
     this.leafSpread = params.leafSpread;
-    this.leafAngle = params.leafAngle;
+    this.angle = params.angle;
     this.leafAngleChange = params.leafAngleChange;
     this.anglePattern = params.anglePattern;
     this.leafStartRatio = params.leafStartRatio;
@@ -411,7 +415,7 @@ function () {
     // debugger
 
     this.buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](this.branch, this.leafDensity, this.ptDistribution, this.leafStartRatio, this.leafEndRatio);
-    this.angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](this.leafDensity, this.leafAngle, this.leafAngleChange, this.leafAnglePattern, this.angleRange);
+    this.angles = _helpers__WEBPACK_IMPORTED_MODULE_0__["angles"](this.leafDensity, this.angle, this.leafAngleChange, this.leafAnglePattern, this.angleRange);
   }
 
   _createClass(LeafyBranch, [{
@@ -454,38 +458,37 @@ var params = {
     x: 500,
     y: 900
   },
-  levels: 5,
+  levels: 0,
   layerLenRatio: 75,
-  layerWidthRatio: 60,
+  layerWidthRatio: 50,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
-  branchDensity: 3,
-  branchThickness: 15,
+  branchDensity: 2,
+  branchThickness: 40,
   branchLength: 200,
-  branchBendyness: 10,
-  branchBendPlacement: 90,
+  branchBendyness: 15,
+  branchBendPlacement: 30,
   // leaf params
   leafColor: 'rgba(16, 151, 16, 0.45)',
-  leafDensity: 5,
-  leafWidth: 6,
+  leafDensity: 10,
+  leafWidth: 3,
   leafLength: 6,
   leafNum: 1,
-  leafSpread: 90,
-  leafStartRatio: 0,
+  leafSpread: 120,
+  leafStartRatio: 50,
   leafEndRatio: 100,
-  leafAngle: 30,
-  leafAngleChange: 0,
+  leafAngleChange: 120,
   // angle params
   angle: 90,
-  angleChange: 15,
-  angleRange: 45,
+  angleChange: 25,
+  angleRange: 35,
   anglePattern: 'alternating',
   // point params
-  ptStartRatio: 40,
-  ptEndRatio: 100,
+  ptStartRatio: 0,
+  ptEndRatio: 90,
   ptDistribution: 'random'
 };
-new _tree__WEBPACK_IMPORTED_MODULE_0__["default"]().drawTree(params); // Object.keys(params).forEach(param => {
+new _tree__WEBPACK_IMPORTED_MODULE_0__["default"](8, 500).drawTree(params); // Object.keys(params).forEach(param => {
 //   if (!document.getElementById(`${camelToKebab(param)}`)) return;
 //   let windowEl = document.getElementById(`${camelToKebab(param)}`);
 //   windowEl.addEventListener('change', e => {
@@ -525,10 +528,12 @@ var draw = Object(_svgdotjs_svg_js__WEBPACK_IMPORTED_MODULE_3__["SVG"])().addTo(
 var Tree =
 /*#__PURE__*/
 function () {
-  function Tree() {
+  function Tree(levels, startX) {
     _classCallCheck(this, Tree);
 
     this.tree = draw.group().addClass('tree');
+    this.levels = levels;
+    this.startX = startX;
   }
 
   _createClass(Tree, [{
@@ -537,7 +542,7 @@ function () {
       var _this = this;
 
       // base branch
-      var branch = new _branch__WEBPACK_IMPORTED_MODULE_1__["default"](draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement).drawBranch();
+      var branch = new _branch__WEBPACK_IMPORTED_MODULE_1__["default"](draw, params.startPt, params.branchLength, params.angle, params.branchThickness, params.branchColor, params.branchBendyness, params.branchBendPlacement, this.startX).drawBranch();
       this.tree.add(branch); // calculate points and angles to itterate over
 
       var buddingPoints = _helpers__WEBPACK_IMPORTED_MODULE_0__["pointsAlongPath"](branch, params.branchDensity, params.ptDistribution, params.ptStartRatio, params.ptEndRatio),
@@ -546,7 +551,7 @@ function () {
       buddingPoints.forEach(function (point, i) {
         var currentAngle = angles[i];
 
-        if (params.levels === 0) {
+        if (params.levels === _this.levels) {
           // if it's the end, draw LEAVES
           var leafyBranch = new _leafy_branch__WEBPACK_IMPORTED_MODULE_2__["default"]({
             canvas: draw,
@@ -559,8 +564,8 @@ function () {
             leafNum: params.leafNum,
             leafSpread: params.leafSpread,
             // angle param
-            leafAngle: params.leafAngle,
-            leafAngleChange: params.leafAngleChange + params.angle,
+            angle: params.angle,
+            leafAngleChange: params.leafAngleChange,
             anglePattern: params.anglePattern,
             // point param
             leafStartRatio: params.leafStartRatio,
@@ -575,13 +580,13 @@ function () {
           // if not the end, draw BRANCHES
           var nextParams = {
             startPt: point,
-            levels: params.levels - 1,
+            levels: params.levels + 1,
             layerLenRatio: params.layerLenRatio,
             layerWidthRatio: params.layerWidthRatio,
             // branch params
             branchColor: params.branchColor,
             branchDensity: params.branchDensity,
-            branchThickness: params.branchThickness * params.layerWidthRatio / 100,
+            branchThickness: params.branchThickness * params.layerWidthRatio / 100 * (_this.levels - params.levels) / 5,
             branchLength: params.branchLength * params.layerLenRatio / 100,
             branchBendyness: params.branchBendyness,
             branchBendPlacement: params.branchBendPlacement,
@@ -594,7 +599,6 @@ function () {
             leafSpread: params.leafSpread,
             leafStartRatio: params.leafStartRatio,
             leafEndRatio: params.leafEndRatio,
-            leafAngle: params.leafAngle,
             leafAngleChange: params.leafAngleChange,
             // angle params
             angle: currentAngle,
