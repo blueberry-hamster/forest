@@ -1,7 +1,7 @@
 import * as helpers from './helpers';
 
 class Branch {
-  constructor(canvas, startPt, length, angle, thickness, color, bend = 0, bendAngle = 90, startX) {
+  constructor(canvas, startPt, length, angle, thickness, color, bend = 0, bendAngle = 90) {
     this.canvas = canvas;
     this.startPt = startPt;
     this.length = length;
@@ -12,8 +12,7 @@ class Branch {
     this.bendAngle = [bendAngle, -1 * bendAngle][Math.floor(Math.random() * 2)];
     // calculated params
     this.endPt = helpers.calculateLinearEndPoint(startPt, length, angle);
-    // this.distToCenter = 1 - ((Math.abs(startX - ((startPt.x + this.endPt.x) / 2)) + 0.01)/ 100);
-    this.thickness = thickness; // * (this.distToCenter)
+    this.thickness = thickness;
 
     this.midPt = helpers.midpointBetweenTwoPoints(startPt, this.endPt);
     this.controlPt = bend === 0 ? 

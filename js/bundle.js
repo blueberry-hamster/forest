@@ -110,7 +110,6 @@ function () {
   function Branch(canvas, startPt, length, angle, thickness, color) {
     var bend = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
     var bendAngle = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 90;
-    var startX = arguments.length > 8 ? arguments[8] : undefined;
 
     _classCallCheck(this, Branch);
 
@@ -123,10 +122,8 @@ function () {
     this.bend = bend;
     this.bendAngle = [bendAngle, -1 * bendAngle][Math.floor(Math.random() * 2)]; // calculated params
 
-    this.endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](startPt, length, angle); // this.distToCenter = 1 - ((Math.abs(startX - ((startPt.x + this.endPt.x) / 2)) + 0.01)/ 100);
-
-    this.thickness = thickness; // * (this.distToCenter)
-
+    this.endPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["calculateLinearEndPoint"](startPt, length, angle);
+    this.thickness = thickness;
     this.midPt = _helpers__WEBPACK_IMPORTED_MODULE_0__["midpointBetweenTwoPoints"](startPt, this.endPt);
     this.controlPt = bend === 0 ? this.midPt : _helpers__WEBPACK_IMPORTED_MODULE_0__["getPointOnEllipse"](this.midPt, length, length * bend / 100, angle, bendAngle);
     this.curve = _helpers__WEBPACK_IMPORTED_MODULE_0__["makeBezierCurve"](startPt, length, angle, this.controlPt);
@@ -449,54 +446,211 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tree */ "./js/tree.js");
-/* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
+/* harmony import */ var _presets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./presets */ "./js/presets.js");
+/* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
 // import { drawLayer, draw, tree } from './tree_builder';
 
 
-var params = {
+
+var currTree = _presets__WEBPACK_IMPORTED_MODULE_1__["tree1"];
+new _tree__WEBPACK_IMPORTED_MODULE_0__["default"](currTree.levels, currTree.startPt.x).drawTree(currTree);
+
+/***/ }),
+
+/***/ "./js/presets.js":
+/*!***********************!*\
+  !*** ./js/presets.js ***!
+  \***********************/
+/*! exports provided: tree1, tree2, tree3, tree4, tree5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree1", function() { return tree1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree2", function() { return tree2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree3", function() { return tree3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree4", function() { return tree4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tree5", function() { return tree5; });
+var tree1 = {
   startPt: {
     x: 500,
     y: 900
   },
-  levels: 0,
+  levels: 6,
+  currLev: 0,
   layerLenRatio: 75,
-  layerWidthRatio: 50,
+  layerWidthRatio: 60,
+  // branch params
+  branchColor: 'rgba(31, 36, 4, 1)',
+  branchDensity: 3,
+  branchThickness: 15,
+  branchLength: 250,
+  branchBendyness: 10,
+  branchBendPlacement: 90,
+  // leaf params
+  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafDensity: 5,
+  leafWidth: 6,
+  leafLength: 6,
+  leafNum: 1,
+  leafSpread: 90,
+  leafStartRatio: 0,
+  leafEndRatio: 100,
+  leafAngleChange: 45,
+  // angle params
+  angle: 90,
+  angleChange: 15,
+  angleRange: 45,
+  anglePattern: 'alternating',
+  // point params
+  ptStartRatio: 40,
+  ptEndRatio: 100,
+  ptDistribution: 'random'
+};
+var tree2 = {
+  startPt: {
+    x: 500,
+    y: 900
+  },
+  levels: 6,
+  currLev: 0,
+  layerLenRatio: 75,
+  layerWidthRatio: 55,
+  // branch params
+  branchColor: 'rgba(31, 36, 4, 1)',
+  branchDensity: 3,
+  branchThickness: 25,
+  branchLength: 200,
+  branchBendyness: 5,
+  branchBendPlacement: 90,
+  // leaf params
+  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafDensity: 4,
+  leafWidth: 16,
+  leafLength: 6,
+  leafNum: 1,
+  leafSpread: 90,
+  leafStartRatio: 0,
+  leafEndRatio: 100,
+  leafAngleChange: 45,
+  // angle params
+  angle: 90,
+  angleChange: 35,
+  angleRange: 45,
+  anglePattern: 'alternating',
+  // point params
+  ptStartRatio: 40,
+  ptEndRatio: 100,
+  ptDistribution: 'random'
+};
+var tree3 = {
+  startPt: {
+    x: 500,
+    y: 900
+  },
+  levels: 8,
+  currLev: 0,
+  layerLenRatio: 80,
+  layerWidthRatio: 60,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 2,
   branchThickness: 40,
-  branchLength: 200,
-  branchBendyness: 15,
-  branchBendPlacement: 30,
+  branchLength: 150,
+  branchBendyness: 100,
+  branchBendPlacement: 100,
   // leaf params
   leafColor: 'rgba(16, 151, 16, 0.45)',
-  leafDensity: 10,
-  leafWidth: 3,
-  leafLength: 6,
+  leafDensity: 4,
+  leafWidth: 8,
+  leafLength: 10,
+  leafNum: 6,
+  leafSpread: 90,
+  leafStartRatio: 0,
+  leafEndRatio: 100,
+  leafAngleChange: 45,
+  // angle params
+  angle: 90,
+  angleChange: 30,
+  angleRange: 45,
+  anglePattern: 'alternating',
+  // point params
+  ptStartRatio: 40,
+  ptEndRatio: 100,
+  ptDistribution: 'random'
+};
+var tree4 = {
+  startPt: {
+    x: 500,
+    y: 900
+  },
+  levels: 3,
+  currLev: 0,
+  layerLenRatio: 80,
+  layerWidthRatio: 45,
+  // branch params
+  branchColor: 'rgba(31, 36, 4, 1)',
+  branchDensity: 6,
+  branchThickness: 35,
+  branchLength: 170,
+  branchBendyness: 3,
+  branchBendPlacement: 90,
+  // leaf params
+  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafDensity: 2,
+  leafWidth: 2,
+  leafLength: 30,
+  leafNum: 6,
+  leafSpread: 120,
+  leafStartRatio: 80,
+  leafEndRatio: 100,
+  leafAngleChange: 45,
+  // angle params
+  angle: 90,
+  angleChange: 30,
+  angleRange: 45,
+  anglePattern: 'alternating',
+  // point params
+  ptStartRatio: 70,
+  ptEndRatio: 100,
+  ptDistribution: 'random'
+};
+var tree5 = {
+  startPt: {
+    x: 500,
+    y: 900
+  },
+  levels: 6,
+  currLev: 0,
+  layerLenRatio: 75,
+  layerWidthRatio: 65,
+  // branch params
+  branchColor: 'rgba(31, 36, 4, 1)',
+  branchDensity: 3,
+  branchThickness: 20,
+  branchLength: 250,
+  branchBendyness: 10,
+  branchBendPlacement: 90,
+  // leaf params
+  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafDensity: 4,
+  leafWidth: 10,
+  leafLength: 3,
   leafNum: 1,
   leafSpread: 120,
-  leafStartRatio: 50,
+  leafStartRatio: 0,
   leafEndRatio: 100,
   leafAngleChange: 120,
   // angle params
   angle: 90,
-  angleChange: 25,
-  angleRange: 35,
+  angleChange: 10,
+  angleRange: 45,
   anglePattern: 'alternating',
   // point params
   ptStartRatio: 0,
   ptEndRatio: 90,
   ptDistribution: 'random'
 };
-new _tree__WEBPACK_IMPORTED_MODULE_0__["default"](8, 500).drawTree(params); // Object.keys(params).forEach(param => {
-//   if (!document.getElementById(`${camelToKebab(param)}`)) return;
-//   let windowEl = document.getElementById(`${camelToKebab(param)}`);
-//   windowEl.addEventListener('change', e => {
-//     params[param] = windowEl.value;
-//     tree.clear();
-//     drawLayer(params);
-//   });
-// });
 
 /***/ }),
 
@@ -551,7 +705,7 @@ function () {
       buddingPoints.forEach(function (point, i) {
         var currentAngle = angles[i];
 
-        if (params.levels === _this.levels) {
+        if (params.currLev === _this.levels) {
           // if it's the end, draw LEAVES
           var leafyBranch = new _leafy_branch__WEBPACK_IMPORTED_MODULE_2__["default"]({
             canvas: draw,
@@ -580,13 +734,14 @@ function () {
           // if not the end, draw BRANCHES
           var nextParams = {
             startPt: point,
-            levels: params.levels + 1,
+            levels: params.levels,
+            currLev: params.currLev + 1,
             layerLenRatio: params.layerLenRatio,
             layerWidthRatio: params.layerWidthRatio,
             // branch params
             branchColor: params.branchColor,
             branchDensity: params.branchDensity,
-            branchThickness: params.branchThickness * params.layerWidthRatio / 100 * (_this.levels - params.levels) / 5,
+            branchThickness: params.branchThickness * params.layerWidthRatio / 100,
             branchLength: params.branchLength * params.layerLenRatio / 100,
             branchBendyness: params.branchBendyness,
             branchBendPlacement: params.branchBendPlacement,

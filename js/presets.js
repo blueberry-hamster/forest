@@ -1,13 +1,14 @@
 export const tree1 = {
   startPt: { x: 500, y: 900 },
   levels: 6,
+  currLev: 0,
   layerLenRatio: 75,
   layerWidthRatio: 60,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 3,
   branchThickness: 15,
-  branchLength: 200,
+  branchLength: 250,
   branchBendyness: 10,
   branchBendPlacement: 90,
   // leaf params
@@ -34,13 +35,14 @@ export const tree1 = {
 export const tree2 = {
   startPt: { x: 500, y: 900 },
   levels: 6,
+  currLev: 0,
   layerLenRatio: 75,
-  layerWidthRatio: 50,
+  layerWidthRatio: 55,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 3,
-  branchThickness: 50,
-  branchLength: 250,
+  branchThickness: 25,
+  branchLength: 200,
   branchBendyness: 5,
   branchBendPlacement: 90,
   // leaf params
@@ -67,13 +69,14 @@ export const tree2 = {
 export const tree3 = {
   startPt: { x: 500, y: 900 },
   levels: 8,
+  currLev: 0,
   layerLenRatio: 80,
   layerWidthRatio: 60,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 2,
-  branchThickness: 50,
-  branchLength: 200,
+  branchThickness: 40,
+  branchLength: 150,
   branchBendyness: 100,
   branchBendPlacement: 100,
   // leaf params
@@ -100,20 +103,21 @@ export const tree3 = {
 export const tree4 = {
   startPt: { x: 500, y: 900 },
   levels: 3,
+  currLev: 0,
   layerLenRatio: 80,
   layerWidthRatio: 45,
   // branch params
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 6,
-  branchThickness: 50,
-  branchLength: 200,
+  branchThickness: 35,
+  branchLength: 170,
   branchBendyness: 3,
   branchBendPlacement: 90,
   // leaf params
   leafColor: 'rgba(16, 151, 16, 0.45)',
   leafDensity: 2,
   leafWidth: 2,
-  leafLength: 35,
+  leafLength: 30,
   leafNum: 6,
   leafSpread: 120,
   leafStartRatio: 80,
@@ -128,11 +132,12 @@ export const tree4 = {
   ptStartRatio: 70,
   ptEndRatio: 100,
   ptDistribution: 'random'
-};
+}; 
 
 export const tree5 = {
   startPt: { x: 500, y: 900 },
   levels: 6,
+  currLev: 0,
   layerLenRatio: 75,
   layerWidthRatio: 65,
   // branch params
@@ -162,3 +167,4 @@ export const tree5 = {
   ptEndRatio: 90,
   ptDistribution: 'random'
 };
+
