@@ -3,7 +3,7 @@ import Branch from './branch';
 import LeafyBranch from './leafy_branch';
 
 import { SVG } from '@svgdotjs/svg.js';
-const draw = SVG().addTo('#canvas').size(1000, 1000);
+export const draw = SVG().addTo('#canvas').size(1000, 1000);
 
 class Tree {
   constructor(levels, startX) {

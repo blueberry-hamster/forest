@@ -8,7 +8,7 @@ export const tree1 = {
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 3,
   branchThickness: 15,
-  branchLength: 250,
+  branchLength: 230,
   branchBendyness: 10,
   branchBendPlacement: 90,
   // leaf params

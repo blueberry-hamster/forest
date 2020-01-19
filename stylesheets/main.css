@@ -11,7 +11,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -49,6 +49,16 @@ table {
   border-spacing: 0;
 }
 
+button {
+  border: none;
+  background-color: clear;
+  border-radius: 0;
+}
+button:focus {
+  border: none;
+  outline: none;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
@@ -78,7 +88,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: rgba(139, 180, 148, 0.26);
 }
 body #tree-generator-container {
   display: flex;
@@ -94,12 +104,12 @@ body #tree-generator-container #canvas {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 10em;
+  margin: auto;
 }
 body #tree-generator-container .adjustments-container {
   position: absolute;
-  left: 10%;
-  top: 20%;
+  left: calc( 50% - 350px );
+  top: 10%;
   min-width: 400px;
   max-height: 500px;
   overflow-y: scroll;
@@ -124,36 +134,21 @@ body #tree-generator-container .adjustments-container label {
   justify-content: space-between;
   text-transform: capitalize;
 }
-body #tree-generator-container .adjustments-container input[type=range] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 200px;
-  height: 5px;
-  margin: 5px 0px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-}
-body #tree-generator-container .adjustments-container input[type=range]:hover {
-  opacity: 1;
-}
-body #tree-generator-container .adjustments-container input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background: rgba(16, 151, 16, 0.65);
+body #tree-generator-container .adjustments-container button {
+  box-sizing: border-box;
+  width: 10em;
+  padding: 0.5em 2em;
+  margin: 0.5em;
+  text-transform: capitalize;
+  font-size: 1.2em;
+  border-radius: 2px;
+  color: #1f2404;
+  background-color: #ffffff;
   cursor: pointer;
 }
-body #tree-generator-container .adjustments-container input[type=range]::-moz-range-thumb {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background: rgba(16, 151, 16, 0.65);
-  cursor: pointer;
+body #tree-generator-container .adjustments-container button:hover {
+  color: #ffffff;
+  background-color: #1f2404;
 }
 body #tree-generator-container .dirt {
   position: absolute;

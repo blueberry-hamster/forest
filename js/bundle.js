@@ -447,13 +447,41 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tree__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tree */ "./js/tree.js");
 /* harmony import */ var _presets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./presets */ "./js/presets.js");
-/* harmony import */ var _tree_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tree_helpers */ "./js/tree_helpers.js");
 // import { drawLayer, draw, tree } from './tree_builder';
 
 
 
-var currTree = _presets__WEBPACK_IMPORTED_MODULE_1__["tree1"];
+var currTree = _presets__WEBPACK_IMPORTED_MODULE_1__["tree4"];
 new _tree__WEBPACK_IMPORTED_MODULE_0__["default"](currTree.levels, currTree.startPt.x).drawTree(currTree);
+Object.values(_presets__WEBPACK_IMPORTED_MODULE_1__).forEach(function (tree, i) {
+  var button = document.querySelector(".tree-".concat(i + 1));
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    _tree__WEBPACK_IMPORTED_MODULE_0__["draw"].clear();
+    var currTree = _presets__WEBPACK_IMPORTED_MODULE_1__["tree".concat(i + 1)];
+    new _tree__WEBPACK_IMPORTED_MODULE_0__["default"](currTree.levels, currTree.startPt.x).drawTree(currTree);
+  });
+});
+
+function saveData(data, fileName) {
+  var a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  var json = JSON.stringify(data),
+      blob = new Blob([data], {
+    type: "text/plain;charset=utf-8"
+  }),
+      url = window.URL.createObjectURL(blob);
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+
+document.querySelector('.save-btn').addEventListener('click', function (e) {
+  e.preventDefault();
+  saveData(_tree__WEBPACK_IMPORTED_MODULE_0__["draw"].svg(), "tree.svg");
+});
 
 /***/ }),
 
@@ -484,7 +512,7 @@ var tree1 = {
   branchColor: 'rgba(31, 36, 4, 1)',
   branchDensity: 3,
   branchThickness: 15,
-  branchLength: 250,
+  branchLength: 230,
   branchBendyness: 10,
   branchBendPlacement: 90,
   // leaf params
@@ -658,11 +686,12 @@ var tree5 = {
 /*!********************!*\
   !*** ./js/tree.js ***!
   \********************/
-/*! exports provided: default */
+/*! exports provided: draw, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw", function() { return draw; });
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./js/helpers.js");
 /* harmony import */ var _branch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./branch */ "./js/branch.js");
 /* harmony import */ var _leafy_branch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./leafy_branch */ "./js/leafy_branch.js");
@@ -775,96 +804,6 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Tree);
-
-/***/ }),
-
-/***/ "./js/tree_helpers.js":
-/*!****************************!*\
-  !*** ./js/tree_helpers.js ***!
-  \****************************/
-/*! exports provided: camelToKebab, distance, midpoint, randomInt, calculateEndPoint, calculateEndPointOnPath, randomPointInEllipse, branchAngles, branchingPoints */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camelToKebab", function() { return camelToKebab; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "midpoint", function() { return midpoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPoint", function() { return calculateEndPoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateEndPointOnPath", function() { return calculateEndPointOnPath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomPointInEllipse", function() { return randomPointInEllipse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchAngles", function() { return branchAngles; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "branchingPoints", function() { return branchingPoints; });
-var camelToKebab = function camelToKebab(string) {
-  return string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-};
-var distance = function distance(point1, point2) {
-  return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
-};
-var midpoint = function midpoint(point1, point2) {
-  return {
-    x: (point1.x + point2.x) / 2,
-    y: (point1.y + point2.y) / 2
-  };
-};
-var randomInt = function randomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-};
-var calculateEndPoint = function calculateEndPoint(start, length, angle) {
-  var ratio = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 100;
-  var radian = angle * Math.PI / 180,
-      newLen = length * ratio / 100;
-  return {
-    x: start.x - newLen * Math.cos(radian),
-    y: start.y - newLen * Math.sin(radian)
-  };
-};
-var calculateEndPointOnPath = function calculateEndPointOnPath(path) {
-  var ratio = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
-  var length = path.length() * ratio / 100;
-  return length.pointAt(length);
-};
-var randomPointInEllipse = function randomPointInEllipse(midpoint, length, width) {
-  var xCenter = midpoint.x;
-  var yCenter = midpoint.y;
-  var xRadius = length / 2;
-  var yRadius = width / 2;
-  var t = 2 * Math.PI * Math.random();
-  var d = Math.sqrt(Math.random());
-  var x = xCenter + xRadius * d * Math.cos(t);
-  var y = yCenter + yRadius * d * Math.sin(t);
-  return {
-    x: x,
-    y: y
-  };
-};
-var branchAngles = function branchAngles(originalAngle, minAngleChange, maxAngleChange, num) {
-  var angles = [];
-
-  for (var i = 0; i < num; i++) {
-    if (i % 2 == 0) {
-      angles.push(randomInt(originalAngle + minAngleChange, originalAngle + maxAngleChange));
-    } else {
-      angles.push(randomInt(originalAngle - minAngleChange, originalAngle - maxAngleChange));
-    }
-  }
-
-  return angles;
-};
-var branchingPoints = function branchingPoints(start, end, angle, num) {
-  var length = distance(start, end);
-  var points = []; // find the distances to branch out at
-
-  for (var i = 0; i < num - 1; i++) {
-    points.push(calculateEndPoint(start, randomInt(0, length), angle));
-  }
-
-  points.push(calculateEndPoint(start, length, angle));
-  return points;
-};
 
 /***/ }),
 

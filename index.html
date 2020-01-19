@@ -12,111 +12,24 @@
 </head>
 <body>
   <div id='tree-generator-container'>
-    <!-- <div class='adjustments-container'>
+    <div class='adjustments-container'>
       <h1>Forest</h1>
-      <ul class='starting-parameters'>
-        <h3>Starting Parameters</h3>
-        <li>
-          <label>starting length
-            <input type="range" min="150" max="250" value="200" class="slider" id="length">
-          </label>
-        </li>
-        <li>
-          <label>starting angle
-            <input type="range" min="60" max="120" value="90" class="slider" id="angle">
-          </label>
-        </li>
-        <li>
-          <label>starting width
-            <input type="range" min="5" max="60" value="20" class="slider" id="width">
-          </label>
-        </li>
-        <li>
-          <label>layers
-            <input type="range" min="3" max="8" value="6" class="slider" id="layer">
-          </label>
-        </li>
-        <li>
-          <label>budding tendency
-            <input type="range" min="0" max="100" value="25" class="slider" id="budding-tendency">
-          </label>
-        </li>
-      </ul>
-      <ul class='layer-parameters'>
-        <h3>Layer Parameters</h3>
-        <li>
-          <label>minimum layer angle
-            <input type="range" min="0" max="45" value="30" class="slider" id="layer-angle-min">
-          </label>
-        </li>
-        <li>
-          <label>maximum layer angle
-            <input type="range" min="0" max="45" value="30" class="slider" id="layer-angle-max">
-          </label>
-        </li>
-        <li>
-          <label>layer length fall-off
-            <input type="range" min="40" max="100" value="80" class="slider" id="layer-length-falloff">
-          </label>
-        </li>
-        <li>
-          <label>layer width fall-off
-            <input type="range" min="10" max="100" value="65" class="slider" id="layer-width-falloff">
-          </label>
-        </li>
-      </ul>
-      <ul class='branch-parameters'>
-        <h3>Branch Parameters</h3>
-        <li>
-          <label>branch density
-            <input type="range" min="1" max="4" value="3" class="slider" id="branch-density">
-          </label>
-        </li>
-        <li>
-          <label>minimum branch angle
-            <input type="range" min="0" max="45" value="10" class="slider" id="branch-min-angle">
-          </label>
-        </li>
-        <li>
-          <label>maximum branch angle
-            <input type="range" min="0" max="45" value="20" class="slider" id="branch-max-angle">
-          </label>
-        </li>
-      </ul>
-      <ul class='leaf-parameters'>
-        <h3>Leaf Parameters</h3>
-        <li>
-          <label>leaf density
-            <input type="range" min="0" max="10" value="5" class="slider" id="leaf-density">
-          </label>
-        </li>
-        <li>
-          <label>minimum leaf angle
-            <input type="range" min="0" max="180" value="30" class="slider" id="min-leaf-angle">
-          </label>
-        </li>
-        <li>
-          <label>maximum leaf angle
-            <input type="range" min="0" max="180" value="60" class="slider" id="leaf-max-angle">
-          </label>
-        </li>
-        <li>
-          <label>leaf length
-            <input type="range" min="1" max="50" value="10" class="slider" id="leaf-length">
-          </label>
-        </li>
-        <li>
-          <label>leaf width
-            <input type="range" min="1" max="50" value="3" class="slider" id="leaf-width">
-          </label>
-        </li>
-      </ul> -->
+      
+      <div class="preset-selector">
+        <button class="tree-1">acacia</button>
+        <button class="tree-2">birch</button>
+        <button class="tree-3">ginko</button>
+        <button class="tree-4">dragon</button>
+        <button class="tree-5">aspen</button>
+      </div>
+      <button class="save-btn">Save SVG</button>
     </div>
     
     <div id='canvas'></div>
     <div class="dirt"></div>
 
   </div>
+
   <div id='forest-container'>
 
   </div>
