@@ -1,0 +1,25 @@
+[debug] [2020-01-23T01:16:00.465Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T01:16:00.467Z] Command:       /Users/jianifan/.nvm/versions/node/v10.13.0/bin/node /Users/jianifan/.nvm/versions/node/v10.13.0/bin/firebase serve
+[debug] [2020-01-23T01:16:00.468Z] CLI Version:   7.12.1
+[debug] [2020-01-23T01:16:00.468Z] Platform:      darwin
+[debug] [2020-01-23T01:16:00.468Z] Node Version:  v10.13.0
+[debug] [2020-01-23T01:16:00.469Z] Time:          Wed Jan 22 2020 17:16:00 GMT-0800 (Pacific Standard Time)
+[debug] [2020-01-23T01:16:00.469Z] ----------------------------------------------------------------------
+[debug] [2020-01-23T01:16:00.469Z] 
+[debug] [2020-01-23T01:16:00.481Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-23T01:16:00.481Z] > authorizing via signed-in user
+[debug] [2020-01-23T01:16:00.481Z] [iam] checking project forest-d0bd9 for permissions ["firebase.projects.get"]
+[debug] [2020-01-23T01:16:00.483Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/forest-d0bd9:testIamPermissions  
+
+[debug] [2020-01-23T01:16:00.668Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-23T01:16:00.670Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/forest-d0bd9  
+ 
+[debug] [2020-01-23T01:16:00.883Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/jianifan/Desktop/appAcademy_2019/forest'...
+[info] 
+[debug] [2020-01-23T01:16:00.886Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/forest-d0bd9/webApps/-/config  
+ 
+[debug] [2020-01-23T01:16:01.194Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000

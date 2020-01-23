@@ -12,5 +12,5 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // function uploadTree(e) {
   //   const db = firebase.firestore();
 
-  // }
+  // } 
 });

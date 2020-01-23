@@ -8,8 +8,8 @@ module.exports = {
   // tell webpack where to output bundled js file
   output: {
     // use path module to get absolute path to current directory (2 underscores)
-    path: path.resolve(__dirname, "js"),
-    filename: './public/js/bundle.js'
+    path: path.resolve(__dirname, "public"),
+    filename: './js/bundle.js'
   },
   // lets us debug in js files we wrote instead of bundled webpack file
   devtool: 'source-map',

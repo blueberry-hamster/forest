@@ -145,7 +145,7 @@ export const tree5 = {
   branchDensity: 3,
   branchThickness: 20,
   branchLength: 250,
-  branchBendyness: 10,
+  branchBendyness: 0,
   branchBendPlacement: 90,
   // leaf params
   leafColor: 'rgba(16, 151, 16, 0.45)',

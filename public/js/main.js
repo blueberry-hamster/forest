@@ -2,9 +2,11 @@
 import Tree from "./tree";
 import * as trees from "./presets";
 import { draw } from "./tree";
+// import svg_to_png from 'svg-to-png';
+
 
 // DRAW THE TREE VIA BUTTON CLICKS
-let currTree = trees.tree4;
+let currTree = trees.tree1;
 new Tree(currTree.levels, currTree.startPt.x).drawTree(currTree);
 Object.values(trees).forEach((tree, i) => {
   let button = document.querySelector(`.tree-${i + 1}`);
@@ -33,17 +35,22 @@ function saveToComputer(data, fileName) {
 }
 
 // SAVE TREE TO FIREBASE BUCKET
-function saveToBucket(data) {
-  var storageRef = firebase.storage().ref();
+function saveToBucket(data, name) {
+      
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+  const treeSvgRef = storageRef.child(`tree${name}.svg`);
 
-  // // Create a reference to 'mountains.jpg'
-  // var treesRef = storageRef.child('trees.svg');
+      // storageRef.put(data)
+      //   .then( snapshot => {
+      //     console.log('Uploaded a file!');
+      //     console.log(snapshot);
+      // });
+
+      treeSvgRef.putString(data).then( snapshot => {
+        console.log(snapshot);
+      });
   
-  storageRef.put(data)
-    .then( snapshot => {
-      console.log('Uploaded a file!');
-      console.log(snapshot);
-    });
 }
 
 document.querySelector('.save-btn').addEventListener('click', e => {
