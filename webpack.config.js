@@ -3,13 +3,13 @@ const path = require('path');
 
 module.exports = {
   // tell webpack where entry point file lives
-  entry: './js/main.js', //this is assuming that we have a frontend folder that has the entry file
+  entry: './public/js/main.js', //this is assuming that we have a frontend folder that has the entry file
 
   // tell webpack where to output bundled js file
   output: {
     // use path module to get absolute path to current directory (2 underscores)
     path: path.resolve(__dirname, "js"),
-    filename: './bundle.js'
+    filename: './public/js/bundle.js'
   },
   // lets us debug in js files we wrote instead of bundled webpack file
   devtool: 'source-map',
@@ -32,4 +32,4 @@ module.exports = {
   resolve: {
     extensions: ['.js', '*']
   }
-}
+};
