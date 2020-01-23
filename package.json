@@ -20,10 +20,18 @@
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@svgdotjs/svg.js": "^3.0.16",
-    "babel-loader": "^8.0.6",
+    "fs": "0.0.1-security",
+    "regenerator-runtime": "^0.13.3",
     "svg-png-converter": "0.0.9",
     "svg-to-png": "^4.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
   }
 }

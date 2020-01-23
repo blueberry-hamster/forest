@@ -2,7 +2,8 @@
 import Tree from "./tree";
 import * as trees from "./presets";
 import { draw } from "./tree";
-// import svg_to_png from 'svg-to-png';
+import { svg2png } from 'svg-png-converter';
+import "regenerator-runtime/runtime";
 
 
 // DRAW THE TREE VIA BUTTON CLICKS
@@ -35,13 +36,23 @@ function saveToComputer(data, fileName) {
 }
 
 // SAVE TREE TO FIREBASE BUCKET
-function saveToBucket(data) {
+async function saveToBucket(data) {
   const date = new Date();
   const storage = firebase.storage();
   const storageRef = storage.ref();
   const treeSvgRef = storageRef.child(`tree_${ date.getTime() }.svg`);
 
-  treeSvgRef.putString(data).then( snapshot => {
+  const pngDataUrl = await svg2png({
+    input: data,
+    encoding: 'dataURL',
+    format: 'png',
+    width: 100,
+    height: 100,
+    multiplier: 0.7,
+    quality: 0.75
+  });
+
+  treeSvgRef.putString(pngDataUrl).then( snapshot => {
     console.log(snapshot);
   });
   
@@ -51,6 +62,6 @@ document.querySelector('.save-btn').addEventListener('click', e => {
   e.preventDefault();
   const file = draw.svg();
 
-  saveToComputer(file, "tree.svg");
+  // saveToComputer(file, "tree.svg");
   saveToBucket(file);
 });

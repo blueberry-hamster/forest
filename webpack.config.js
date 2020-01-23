@@ -31,5 +31,8 @@ module.exports = {
   // allows us to drop .js or .jsx when importing files
   resolve: {
     extensions: ['.js', '*']
+  },
+  node: {
+    fs: "empty"
   }
 };
