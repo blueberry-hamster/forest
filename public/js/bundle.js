@@ -11727,15 +11727,11 @@ function saveToComputer(data, fileName) {
 } // SAVE TREE TO FIREBASE BUCKET
 
 
-function saveToBucket(data, name) {
+function saveToBucket(data) {
+  var date = new Date();
   var storage = firebase.storage();
   var storageRef = storage.ref();
-  var treeSvgRef = storageRef.child("tree".concat(name, ".svg")); // storageRef.put(data)
-  //   .then( snapshot => {
-  //     console.log('Uploaded a file!');
-  //     console.log(snapshot);
-  // });
-
+  var treeSvgRef = storageRef.child("tree_".concat(date.getTime(), ".svg"));
   treeSvgRef.putString(data).then(function (snapshot) {
     console.log(snapshot);
   });
@@ -11743,8 +11739,8 @@ function saveToBucket(data, name) {
 
 document.querySelector('.save-btn').addEventListener('click', function (e) {
   e.preventDefault();
-  var file = _tree__WEBPACK_IMPORTED_MODULE_0__["draw"].svg(); // saveToComputer(file, "tree.svg");
-
+  var file = _tree__WEBPACK_IMPORTED_MODULE_0__["draw"].svg();
+  saveToComputer(file, "tree.svg");
   saveToBucket(file);
 });
 
