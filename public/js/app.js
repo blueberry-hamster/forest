@@ -1,16 +1,17 @@
+
 document.addEventListener('DOMContentLoaded', (e) => {
-  const app = firebase.app();
-  const db = firebase.firestore();
-  const trees = db.collection('tree');
-  // debugger
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+  
+  async function abc() {
+    const images = await storageRef.listAll();
+    debugger
+  } 
 
-  // trees.get()
-  //   .then(trees => {
-  //     document.write( data );
+  abc();
+
+  // storageRef.listAll()
+  // .then( res => {
+  //   console.log(res);
   // });
-
-  // function uploadTree(e) {
-  //   const db = firebase.firestore();
-
-  // } 
 });
