@@ -4,14 +4,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const storageRef = storage.ref();
   
   async function abc() {
-    const images = await storageRef.listAll();
-    debugger
+    const images = await storageRef.list({ maxResults: 10 });
+    
   } 
 
   abc();
-
-  // storageRef.listAll()
-  // .then( res => {
-  //   console.log(res);
-  // });
 });
