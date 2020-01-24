@@ -40,11 +40,11 @@ async function saveToBucket(data) {
   const date = new Date();
   const storage = firebase.storage();
   const storageRef = storage.ref();
-  const treeSvgRef = storageRef.child(`tree_${ date.getTime() }.txt`);
+  const treeSvgRef = storageRef.child(`tree_${ date.getTime() }.png`);
 
   const pngDataUrl = await svg2png({
     input: data,
-    encoding: 'dataURL',
+    encoding: 'buffer',
     format: 'png',
     width: 1000,
     height: 1000,
@@ -52,9 +52,14 @@ async function saveToBucket(data) {
     quality: 1
   });
 
-  treeSvgRef.putString(pngDataUrl).then( snapshot => {
-    console.log('Successfully saved to cloud');
-  });
+  var file = pngDataUrl; // use the Blob or File API
+    treeSvgRef.put(file).then(function (snapshot) {
+      console.log('Successfully saved to bucket');
+    });
+  
+  // treeSvgRef.putString(pngDataUrl).then( snapshot => {
+  //   console.log('Successfully saved to cloud');
+  // });
   
 }
 
