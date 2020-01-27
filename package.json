@@ -20,6 +20,7 @@
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@svgdotjs/svg.js": "^3.0.16",
+    "endless-js": "^0.2.0",
     "fs": "0.0.1-security",
     "regenerator-runtime": "^0.13.3",
     "svg-png-converter": "0.0.9",
