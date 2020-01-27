@@ -32,75 +32,75 @@ export const tree1 = {
   ptDistribution: 'random'
 };
 
+// export const tree2 = {
+//   startPt: { x: 500, y: 900 },
+//   levels: 6,
+//   currLev: 0,
+//   layerLenRatio: 75,
+//   layerWidthRatio: 55,
+//   // branch params
+//   branchColor: 'rgba(31, 36, 4, 1)',
+//   branchDensity: 3,
+//   branchThickness: 25,
+//   branchLength: 200,
+//   branchBendyness: 5,
+//   branchBendPlacement: 90,
+//   // leaf params
+//   leafColor: 'rgba(16, 151, 16, 0.45)',
+//   leafDensity: 4,
+//   leafWidth: 16,
+//   leafLength: 6,
+//   leafNum: 1,
+//   leafSpread: 90,
+//   leafStartRatio: 0,
+//   leafEndRatio: 100,
+//   leafAngleChange: 45,
+//   // angle params
+//   angle: 90,
+//   angleChange: 35,
+//   angleRange: 45,
+//   anglePattern: 'alternating',
+//   // point params
+//   ptStartRatio: 40,
+//   ptEndRatio: 100,
+//   ptDistribution: 'random'
+// };
+
+// export const tree3 = {
+//   startPt: { x: 500, y: 900 },
+//   levels: 8,
+//   currLev: 0,
+//   layerLenRatio: 80,
+//   layerWidthRatio: 60,
+//   // branch params
+//   branchColor: 'rgba(31, 36, 4, 1)',
+//   branchDensity: 2,
+//   branchThickness: 40,
+//   branchLength: 150,
+//   branchBendyness: 100,
+//   branchBendPlacement: 100,
+//   // leaf params
+//   leafColor: 'rgba(16, 151, 16, 0.45)',
+//   leafDensity: 4,
+//   leafWidth: 8,
+//   leafLength: 10,
+//   leafNum: 6,
+//   leafSpread: 90,
+//   leafStartRatio: 0,
+//   leafEndRatio: 100,
+//   leafAngleChange: 45,
+//   // angle params
+//   angle: 90,
+//   angleChange: 30,
+//   angleRange: 45,
+//   anglePattern: 'alternating',
+//   // point params
+//   ptStartRatio: 40,
+//   ptEndRatio: 100,
+//   ptDistribution: 'random'
+// };
+
 export const tree2 = {
-  startPt: { x: 500, y: 900 },
-  levels: 6,
-  currLev: 0,
-  layerLenRatio: 75,
-  layerWidthRatio: 55,
-  // branch params
-  branchColor: 'rgba(31, 36, 4, 1)',
-  branchDensity: 3,
-  branchThickness: 25,
-  branchLength: 200,
-  branchBendyness: 5,
-  branchBendPlacement: 90,
-  // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.45)',
-  leafDensity: 4,
-  leafWidth: 16,
-  leafLength: 6,
-  leafNum: 1,
-  leafSpread: 90,
-  leafStartRatio: 0,
-  leafEndRatio: 100,
-  leafAngleChange: 45,
-  // angle params
-  angle: 90,
-  angleChange: 35,
-  angleRange: 45,
-  anglePattern: 'alternating',
-  // point params
-  ptStartRatio: 40,
-  ptEndRatio: 100,
-  ptDistribution: 'random'
-};
-
-export const tree3 = {
-  startPt: { x: 500, y: 900 },
-  levels: 8,
-  currLev: 0,
-  layerLenRatio: 80,
-  layerWidthRatio: 60,
-  // branch params
-  branchColor: 'rgba(31, 36, 4, 1)',
-  branchDensity: 2,
-  branchThickness: 40,
-  branchLength: 150,
-  branchBendyness: 100,
-  branchBendPlacement: 100,
-  // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.45)',
-  leafDensity: 4,
-  leafWidth: 8,
-  leafLength: 10,
-  leafNum: 6,
-  leafSpread: 90,
-  leafStartRatio: 0,
-  leafEndRatio: 100,
-  leafAngleChange: 45,
-  // angle params
-  angle: 90,
-  angleChange: 30,
-  angleRange: 45,
-  anglePattern: 'alternating',
-  // point params
-  ptStartRatio: 40,
-  ptEndRatio: 100,
-  ptDistribution: 'random'
-};
-
-export const tree4 = {
   startPt: { x: 500, y: 900 },
   levels: 3,
   currLev: 0,
@@ -134,7 +134,7 @@ export const tree4 = {
   ptDistribution: 'random'
 }; 
 
-export const tree5 = {
+export const tree3 = {
   startPt: { x: 500, y: 900 },
   levels: 6,
   currLev: 0,

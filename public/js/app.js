@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', (e) => {
   const storage = firebase.storage();
   const storageRef = storage.ref();
-  const forestContainer = document.getElementById('forest-container');
+  const forestTreesContainer = document.querySelector('.trees');
   
   async function addTreesToForest() {
     const images = await storageRef.list({ maxResults: 10 });
@@ -12,11 +12,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
       const url = await pathRef.getDownloadURL();
       const img = document.createElement('img');
       img.src = url;
-      forestContainer.appendChild(img);
-
-      console.log(url);
+      forestTreesContainer.appendChild(img);
     });
   } 
 
   addTreesToForest();
 });
+
