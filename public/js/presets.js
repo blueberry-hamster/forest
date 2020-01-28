@@ -1,3 +1,23 @@
+const darkBrown = 'rgba(31, 37, 4, 1)';
+const blackBrown = 'rbga(57, 55 ,46, 1)';
+
+const sageGreen = 'rgb(69, 133, 90)';
+const leafGreen = 'rgba(39, 90, 73, 0.45)';
+const pineGreen = 'rgba(25, 57, 43, 0.45)';
+const mossGreen = 'rgba(58, 84, 66, 0.45)';
+
+const leafColors = [sageGreen, leafGreen, pineGreen, mossGreen];
+const barkColors = [darkBrown, blackBrown];
+
+const randomLeafColor = () => {
+  return leafColors[Math.floor(Math.random() * leafColors.length)];
+};
+
+const randomBarkColor = () => {
+  return barkColors[Math.floor(Math.random() * barkColors.length)];
+};
+
+
 export const tree1 = {
   startPt: { x: 500, y: 1200 },
   levels: 6,
@@ -5,14 +25,14 @@ export const tree1 = {
   layerLenRatio: 75,
   layerWidthRatio: 60,
   // branch params
-  branchColor: 'rgba(31, 36, 4, 1)',
+  branchColor: randomBarkColor(),
   branchDensity: 3,
   branchThickness: 15,
   branchLength: 230,
   branchBendyness: 10,
   branchBendPlacement: 90,
   // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafColor: randomLeafColor(),
   leafDensity: 5,
   leafWidth: 6,
   leafLength: 6,
@@ -39,14 +59,14 @@ export const tree1 = {
 //   layerLenRatio: 75,
 //   layerWidthRatio: 55,
 //   // branch params
-//   branchColor: 'rgba(31, 36, 4, 1)',
+//   branchColor: randomBarkColor(),
 //   branchDensity: 3,
 //   branchThickness: 25,
 //   branchLength: 200,
 //   branchBendyness: 5,
 //   branchBendPlacement: 90,
 //   // leaf params
-//   leafColor: 'rgba(16, 151, 16, 0.45)',
+//   leafColor: randomLeafColor(),
 //   leafDensity: 4,
 //   leafWidth: 16,
 //   leafLength: 6,
@@ -73,14 +93,14 @@ export const tree1 = {
 //   layerLenRatio: 80,
 //   layerWidthRatio: 60,
 //   // branch params
-//   branchColor: 'rgba(31, 36, 4, 1)',
+//   branchColor: randomBarkColor(),
 //   branchDensity: 2,
 //   branchThickness: 40,
 //   branchLength: 150,
 //   branchBendyness: 100,
 //   branchBendPlacement: 100,
 //   // leaf params
-//   leafColor: 'rgba(16, 151, 16, 0.45)',
+//   leafColor: randomLeafColor(),
 //   leafDensity: 4,
 //   leafWidth: 8,
 //   leafLength: 10,
@@ -107,14 +127,14 @@ export const tree2 = {
   layerLenRatio: 80,
   layerWidthRatio: 45,
   // branch params
-  branchColor: 'rgba(31, 36, 4, 1)',
+  branchColor: randomBarkColor(),
   branchDensity: 6,
   branchThickness: 35,
   branchLength: 170,
   branchBendyness: 3,
   branchBendPlacement: 90,
   // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafColor: randomLeafColor(),
   leafDensity: 2,
   leafWidth: 2,
   leafLength: 30,
@@ -141,14 +161,14 @@ export const tree3 = {
   layerLenRatio: 75,
   layerWidthRatio: 65,
   // branch params
-  branchColor: 'rgba(31, 36, 4, 1)',
+  branchColor: randomBarkColor(),
   branchDensity: 3,
   branchThickness: 20,
   branchLength: 250,
   branchBendyness: 0,
   branchBendPlacement: 90,
   // leaf params
-  leafColor: 'rgba(16, 151, 16, 0.45)',
+  leafColor: randomLeafColor(),
   leafDensity: 4,
   leafWidth: 10,
   leafLength: 3,
