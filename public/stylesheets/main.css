@@ -245,6 +245,7 @@ body div#forest-container {
   overflow-x: scroll;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 }
 body div#forest-container div.trees {
   display: flex;
@@ -252,8 +253,7 @@ body div#forest-container div.trees {
   flex-wrap: nowrap;
   align-items: flex-end;
   overflow: scroll;
-  width: 0px;
-  background: transparent;
+  padding-bottom: 5vh;
 }
 body div#forest-container div.trees img {
   display: block;
