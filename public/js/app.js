@@ -7,10 +7,9 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   async function addTreesToForest() {
     // const images = await storageRef.list({ maxResults: 5 });
     const images = await storageRef.list();
-    debugger
-    const last5Imgs = images.items.reverse().slice(0, 5);
+    const last10Imgs = images.items.reverse().slice(0, 10);
 
-    for (const imgObj of last5Imgs) {
+    for (const imgObj of last10Imgs) {
       const pathRef = storage.ref(imgObj.fullPath);
       const url = await pathRef.getDownloadURL();
       const img = document.createElement('img');
@@ -22,6 +21,8 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   // Step 1: Creating a simple slider
   const allTrees = await addTreesToForest();
 
+
+  // Step 2: Preparing for infinite scroll
   const cloneImg1 = document.images[0].cloneNode(false);
   const cloneImg2c1 = document.images[1].cloneNode(false);
   const cloneImg2c2 = document.images[1].cloneNode(false);
@@ -29,9 +30,24 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   const cloneImg3c2 = document.images[2].cloneNode(false);
   const cloneImg4c1 = document.images[3].cloneNode(false);
   const cloneImg4c2 = document.images[3].cloneNode(false);
-  const cloneImg5 = document.images[4].cloneNode(false);
+  const cloneImg5c1 = document.images[4].cloneNode(false);
+  const cloneImg5c2 = document.images[4].cloneNode(false);
+  const cloneImg6c1 = document.images[5].cloneNode(false);
+  const cloneImg6c2 = document.images[5].cloneNode(false);
+  const cloneImg7c1 = document.images[6].cloneNode(false);
+  const cloneImg7c2 = document.images[6].cloneNode(false);
+  const cloneImg8c1 = document.images[7].cloneNode(false);
+  const cloneImg8c2 = document.images[7].cloneNode(false);
+  const cloneImg9c1 = document.images[8].cloneNode(false);
+  const cloneImg9c2 = document.images[8].cloneNode(false);
+  const cloneImg10 = document.images[9].cloneNode(false);
 
-  forestTreesContainer.insertBefore(cloneImg5, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg10, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg9c1, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg8c1, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg7c1, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg6c1, document.images[0]);
+  forestTreesContainer.insertBefore(cloneImg5c1, document.images[0]);
   forestTreesContainer.insertBefore(cloneImg4c1, document.images[0]);
   forestTreesContainer.insertBefore(cloneImg3c1, document.images[0]);
   forestTreesContainer.insertBefore(cloneImg2c1, document.images[0]);
@@ -39,11 +55,16 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   forestTreesContainer.appendChild(cloneImg2c2);
   forestTreesContainer.appendChild(cloneImg3c2);
   forestTreesContainer.appendChild(cloneImg4c2);
+  forestTreesContainer.appendChild(cloneImg5c2);
+  forestTreesContainer.appendChild(cloneImg6c2);
+  forestTreesContainer.appendChild(cloneImg7c2);
+  forestTreesContainer.appendChild(cloneImg8c2);
+  forestTreesContainer.appendChild(cloneImg9c2);
 
   // Step 3: Adding an infinite scroll effect
-  const sliderStartForward = document.images[4].getBoundingClientRect().left;
-  const sliderEndForward = document.images[8].getBoundingClientRect().right - 10;
-  const sliderStartBackward = document.images[4].getBoundingClientRect().right;
+  const sliderStartForward = document.images[9].getBoundingClientRect().left;
+  const sliderEndForward = document.images[17].getBoundingClientRect().right - 10;
+  const sliderStartBackward = document.images[9].getBoundingClientRect().right;
 
   // We're repositionning our slider to our first true image 
   // as currently the first image we're seing is a clone

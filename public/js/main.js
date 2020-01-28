@@ -81,10 +81,16 @@ async function saveToBucket(data) {
   console.log('Successfully saved to bucket');
 }
 
-document.querySelector('.save-btn').addEventListener('click', e => {
+document.querySelector('.save-local-btn').addEventListener('click', e => {
   e.preventDefault();
   const file = draw.svg();
 
   saveToComputer(file, "tree.svg");
+});
+
+document.querySelector('.save-cloud-btn').addEventListener('click', e => {
+  e.preventDefault();
+  const file = draw.svg();
+
   saveToBucket(file);
 });

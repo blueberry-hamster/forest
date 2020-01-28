@@ -176,10 +176,10 @@ body #tree-generator-container {
 }
 body #tree-generator-container #canvas {
   position: absolute;
-  top: 0;
+  top: -16vh;
   box-sizing: border-box;
   width: 100vw;
-  height: 100vh;
+  height: 95vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -233,8 +233,8 @@ body #tree-generator-container .adjustments-container button:hover {
 body #tree-generator-container .dirt {
   position: absolute;
   width: 100vw;
-  min-height: 10vh;
-  top: 90vh;
+  height: 5vh;
+  top: 95vh;
   background-color: #1f2404;
 }
 body div#forest-container {
@@ -257,7 +257,7 @@ body div#forest-container div.trees {
 }
 body div#forest-container div.trees img {
   display: block;
-  max-height: 50vh;
+  max-height: 80vh;
 }
 
 div#loading-screen {
