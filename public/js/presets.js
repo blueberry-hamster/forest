@@ -1,5 +1,5 @@
 export const tree1 = {
-  startPt: { x: 500, y: 900 },
+  startPt: { x: 500, y: 1200 },
   levels: 6,
   currLev: 0,
   layerLenRatio: 75,
@@ -33,7 +33,7 @@ export const tree1 = {
 };
 
 // export const tree2 = {
-//   startPt: { x: 500, y: 900 },
+//   startPt: { x: 500, y: 1200 },
 //   levels: 6,
 //   currLev: 0,
 //   layerLenRatio: 75,
@@ -67,7 +67,7 @@ export const tree1 = {
 // };
 
 // export const tree3 = {
-//   startPt: { x: 500, y: 900 },
+//   startPt: { x: 500, y: 1200 },
 //   levels: 8,
 //   currLev: 0,
 //   layerLenRatio: 80,
@@ -101,7 +101,7 @@ export const tree1 = {
 // };
 
 export const tree2 = {
-  startPt: { x: 500, y: 900 },
+  startPt: { x: 500, y: 1200 },
   levels: 3,
   currLev: 0,
   layerLenRatio: 80,
@@ -135,7 +135,7 @@ export const tree2 = {
 }; 
 
 export const tree3 = {
-  startPt: { x: 500, y: 900 },
+  startPt: { x: 500, y: 1200 },
   levels: 6,
   currLev: 0,
   layerLenRatio: 75,

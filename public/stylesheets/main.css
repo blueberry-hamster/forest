@@ -244,13 +244,16 @@ body div#forest-container {
   height: 100vh;
   overflow-x: scroll;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-direction: column;
 }
 body div#forest-container div.trees {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: flex-end;
+  overflow: scroll;
+  width: 0px;
+  background: transparent;
 }
 body div#forest-container div.trees img {
   display: block;
