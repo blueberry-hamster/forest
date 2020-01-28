@@ -71,8 +71,8 @@ async function saveToBucket(data) {
     input: data,
     encoding: 'buffer',
     format: 'png',
-    width: 800,
-    height: 800,
+    width: 1200,
+    height: 1200,
     multiplier: 1,
     quality: 1
   });

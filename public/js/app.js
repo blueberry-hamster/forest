@@ -5,9 +5,12 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   const forestTreesContainer = document.querySelector('.trees');
   
   async function addTreesToForest() {
-    const images = await storageRef.list({ maxResults: 5 });
+    // const images = await storageRef.list({ maxResults: 5 });
+    const images = await storageRef.list();
+    debugger
+    const last5Imgs = images.items.reverse().slice(0, 5);
 
-    for (const imgObj of images.items) {
+    for (const imgObj of last5Imgs) {
       const pathRef = storage.ref(imgObj.fullPath);
       const url = await pathRef.getDownloadURL();
       const img = document.createElement('img');
@@ -18,27 +21,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   
   // Step 1: Creating a simple slider
   const allTrees = await addTreesToForest();
-
-
-  // Step 2: Preparing for infinite scroll
-  // const cloneImg1 = document.images[0].cloneNode(false);
-  // const cloneImg2c1 = document.images[1].cloneNode(false);
-  // const cloneImg2c2 = document.images[1].cloneNode(false);
-  // const cloneImg3c1 = document.images[2].cloneNode(false);
-  // const cloneImg3c2 = document.images[2].cloneNode(false);
-  // const cloneImg4c1 = document.images[3].cloneNode(false);
-  // const cloneImg4c2 = document.images[3].cloneNode(false);
-  // const cloneImg5c1 = document.images[4].cloneNode(false);
-  // const cloneImg5c2 = document.images[4].cloneNode(false);
-  // const cloneImg6c1 = document.images[5].cloneNode(false);
-  // const cloneImg6c2 = document.images[5].cloneNode(false);
-  // const cloneImg7c1 = document.images[6].cloneNode(false);
-  // const cloneImg7c2 = document.images[6].cloneNode(false);
-  // const cloneImg8c1 = document.images[7].cloneNode(false);
-  // const cloneImg8c2 = document.images[7].cloneNode(false);
-  // const cloneImg9c1 = document.images[8].cloneNode(false);
-  // const cloneImg9c2 = document.images[8].cloneNode(false);
-  // const cloneImg10 = document.images[9].cloneNode(false);
 
   const cloneImg1 = document.images[0].cloneNode(false);
   const cloneImg2c1 = document.images[1].cloneNode(false);
