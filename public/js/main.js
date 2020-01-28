@@ -94,3 +94,21 @@ document.querySelector('.save-cloud-btn').addEventListener('click', e => {
 
   saveToBucket(file);
 });
+
+const title = document.querySelector('h1');
+const treeGeneratorContainer = document.querySelector('#tree-generator-container');
+const forestContainer = document.querySelector('#forest-container');
+title.addEventListener('click', e => {
+  e.preventDefault();
+  
+  if (title.innerText === 'Forest') {
+    title.innerText = 'Tree';
+    treeGeneratorContainer.style.display = 'none';
+    forestContainer.style.display = 'flex';
+  } else {
+    title.innerText = 'Forest';
+    treeGeneratorContainer.style.display = 'flex';
+    forestContainer.style.display = 'none';
+  }
+  
+});

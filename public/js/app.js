@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
   // Step 3: Adding an infinite scroll effect
   const sliderStartForward = document.images[9].getBoundingClientRect().left;
-  const sliderEndForward = document.images[17].getBoundingClientRect().right - 10;
+  const sliderEndForward = document.images[19].getBoundingClientRect().right - 20;
   const sliderStartBackward = document.images[9].getBoundingClientRect().right;
 
   // We're repositionning our slider to our first true image 

@@ -7,6 +7,11 @@ body
 
   background-color: $light-green
 
+  h1 
+    cursor: pointer
+    &:hover
+      color: $medium-green
+
   #tree-generator-container
     display: flex
     flex-direction: row
@@ -25,61 +30,12 @@ body
       align-items: center
       margin: auto
 
-    .adjustments-container
-      position: absolute
-      left: calc( 50% - 350px )
-      top: 5vh
-      min-width: 400px
-      max-height: 500px
-      overflow-y: scroll
-      
-      margin: auto
-      padding: 50px
-      z-index: 500
-
-      background-color: $milk
-      border-radius: 1em
-
-      h1 
-        margin-bottom: 0.5em
-
-      h3 
-        margin-bottom: 0.25em
-        margin-top: 0.5em
-
-      label
-        margin-top: 0.25em 
-        width: 100%
-        display: flex
-        flex-direction: row
-        justify-content: space-between
-
-        text-transform: capitalize
-
-      button 
-        box-sizing: border-box
-        width: 10em
-        padding: 0.5em 2em
-        margin: 0.5em
-        text-transform: capitalize
-        font-size: 1.2em
-      
-        border-radius: 2px
-        // border: 1px solid $light-green
-        color: $black-brown
-        background-color: $white
-        cursor: pointer
-
-        &:hover
-          color: $white
-          background-color: $black-brown
-
-    .dirt
-      position: absolute
-      width: 100vw
-      height: 5vh
-      top: 95vh
-      background-color: $black-brown
+  div.dirt
+    position: absolute
+    width: 100vw
+    height: 5vh
+    top: 95vh
+    background-color: $black-brown
 
   div#forest-container
     position: fixed
@@ -88,7 +44,7 @@ body
     height: 100vh
     overflow-x: scroll
 
-    display: flex
+    display: none
     flex-direction: column
     justify-content: flex-end
 
@@ -97,7 +53,7 @@ body
       flex-direction: row
       flex-wrap: nowrap
       align-items: flex-end
-      overflow: scroll
+      // overflow: scroll
 
       padding-bottom: 5vh
 
@@ -109,3 +65,53 @@ body
       img 
         display: block
         max-height: 80vh
+        
+
+  div.adjustments-container
+    position: absolute
+    left: calc( 50% - 350px )
+    top: 5vh
+    min-width: 400px
+    max-height: 500px
+    overflow-y: scroll
+    
+    margin: auto
+    padding: 50px
+    z-index: 500
+
+    background-color: $milk
+    border-radius: 1em
+
+    h1 
+      margin-bottom: 0.5em
+
+    h3 
+      margin-bottom: 0.25em
+      margin-top: 0.5em
+
+    label
+      margin-top: 0.25em 
+      width: 100%
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+
+      text-transform: capitalize
+
+    button 
+      box-sizing: border-box
+      width: 10em
+      padding: 0.5em 2em
+      margin: 0.5em
+      text-transform: capitalize
+      font-size: 1.2em
+    
+      border-radius: 2px
+      // border: 1px solid $light-green
+      color: $black-brown
+      background-color: $white
+      cursor: pointer
+
+      &:hover
+        color: $white
+        background-color: $black-brown
