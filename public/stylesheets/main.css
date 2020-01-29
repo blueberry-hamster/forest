@@ -282,7 +282,7 @@ body div.adjustments-container button.save:hover {
   color: #899080;
 }
 body div.adjustments-container button.selected {
-  border: 1px solid #899080;
+  border: 1px solid #39372e;
 }
 
 div#loading-screen {

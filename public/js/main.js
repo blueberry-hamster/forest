@@ -114,6 +114,7 @@ document.querySelector('.save-cloud-btn').addEventListener('click', async e => {
   await saveToBucket(file);
   showLoadingModal(false);
   popMessage('This tree has been saved to the forest.');
+  changePage();
 });
 
 
@@ -124,9 +125,7 @@ const treeGeneratorContainer = document.querySelector('#tree-generator-container
 const forestContainer = document.querySelector('#forest-container');
 const buttonsSection = document.querySelector('.buttons');
 
-title.addEventListener('click', e => {
-  e.preventDefault();
-  
+const changePage = () => {
   if (h1.innerText === 'Forest') {
     h1.innerText = 'Tree';
     treeGeneratorContainer.style.display = 'none';
@@ -138,5 +137,9 @@ title.addEventListener('click', e => {
     forestContainer.style.display = 'none';
     buttonsSection.style.display = 'block';
   }
-  
+};
+
+title.addEventListener('click', e => {
+  e.preventDefault();
+  changePage();
 });
