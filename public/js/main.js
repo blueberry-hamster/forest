@@ -23,7 +23,7 @@ const drawTree = currTree => {
 
 
 // DRAW THE TREE VIA BUTTON CLICKS
-let currTree = trees.tree1;
+let currTree = trees.tree2;
 drawTree(currTree);
 // remove loading after tree loads
 showLoadingModal(false);
