@@ -44,7 +44,7 @@ Object.values(trees).forEach((tree, i) => {
   
   button.addEventListener('click', async e => {
     e.preventDefault();
-  
+
     // put in loading
    await showLoadingModal(true);
     draw.clear();
@@ -52,12 +52,14 @@ Object.values(trees).forEach((tree, i) => {
     document.querySelector('.selected').classList.remove('selected');
     button.classList.add('selected');
     
-    await window.setTimeout(() => console.log('setting timeout'), 0);
+    await window.setTimeout(() => {
+      
+      let currTree = trees[`tree${i + 1}`];    
+      drawTree(currTree);
+      // remove loading
+      showLoadingModal(false);
+    }, 0);
     
-    let currTree = trees[`tree${i + 1}`];    
-    await drawTree(currTree);
-    // remove loading
-    showLoadingModal(false);
     
   });
 });
