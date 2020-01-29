@@ -169,10 +169,11 @@ body {
   background-color: #ffffff;
   transition: all 1s ease 0s;
 }
-body h1 {
+body .title {
+  font-family: "Baskervville", serif;
   cursor: pointer;
 }
-body h1:hover {
+body .title:hover {
   color: #899080;
 }
 body #tree-generator-container {
@@ -265,10 +266,11 @@ body div.adjustments-container button {
   padding: 0.5em 2em;
   margin: 0.5em;
   text-transform: capitalize;
-  font-size: 1.2em;
+  font-size: 1em;
   border-radius: 2px;
+  border: 1px solid transparent;
   color: #39372e;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
 }
 body div.adjustments-container button:hover {
@@ -278,6 +280,9 @@ body div.adjustments-container button:hover {
 body div.adjustments-container button.save:hover {
   background-color: #ffffff;
   color: #899080;
+}
+body div.adjustments-container button.selected {
+  border: 1px solid #899080;
 }
 
 div#loading-screen {
@@ -291,7 +296,7 @@ div#loading-screen {
   margin: auto;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.85);
   z-index: 10000;
 }
 div#loading-screen.hidden {

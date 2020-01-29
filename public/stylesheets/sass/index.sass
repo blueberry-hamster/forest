@@ -8,8 +8,10 @@ body
   background-color: $white
   transition: all 1s ease 0s
 
-  h1 
+  .title
+    font-family: $serif
     cursor: pointer
+
     &:hover
       color: $silver
 
@@ -117,10 +119,10 @@ body
       padding: 0.5em 2em
       margin: 0.5em
       text-transform: capitalize
-      font-size: 1.2em
+      font-size: 1em
     
       border-radius: 2px
-      // border: 1px solid $light-green
+      border: 1px solid transparent
       color: $black-brown
       background-color: $milk
       cursor: pointer
@@ -133,4 +135,6 @@ body
         background-color: $white
         color: $silver
 
+      &.selected
+        border: 1px solid $silver
 

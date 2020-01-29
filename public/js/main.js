@@ -1,6 +1,7 @@
 // import { drawLayer, draw, tree } from './tree_builder';
 import Tree from "./tree";
 import * as trees from "./presets";
+import { randomInt } from './helpers';
 import { draw } from "./tree";
 import { svg2png } from 'svg-png-converter';
 import "regenerator-runtime/runtime";
@@ -29,22 +30,32 @@ const drawTree = currTree => {
 
 
 // DRAW THE TREE VIA BUTTON CLICKS
-let currTree = trees.tree3;
+const startingNum = randomInt(1, 3);
+const currTree = trees[`tree${startingNum}`];
+// select the corresponding button
+document.querySelector(`.tree-${startingNum}`).classList.add('selected');
+// draw tree
 drawTree(currTree);
 // remove loading after tree loads
 showLoadingModal(false);
 
 Object.values(trees).forEach((tree, i) => {
   let button = document.querySelector(`.tree-${i + 1}`);
-
-  button.addEventListener('click', e => {
+  
+  button.addEventListener('click', async e => {
     e.preventDefault();
+  
     // put in loading
-    showLoadingModal(true);
+   await showLoadingModal(true);
     draw.clear();
+    // change selected
+    document.querySelector('.selected').classList.remove('selected');
+    button.classList.add('selected');
+    
+    await window.setTimeout(() => console.log('setting timeout'), 0);
     
     let currTree = trees[`tree${i + 1}`];    
-    drawTree(currTree);
+    await drawTree(currTree);
     // remove loading
     showLoadingModal(false);
     
@@ -107,7 +118,8 @@ document.querySelector('.save-cloud-btn').addEventListener('click', async e => {
 
 
 // handle changing 'pages'
-const title = document.querySelector('h1');
+const title = document.querySelector('.title');
+const h1 = document.querySelector('h1');
 const treeGeneratorContainer = document.querySelector('#tree-generator-container');
 const forestContainer = document.querySelector('#forest-container');
 const buttonsSection = document.querySelector('.buttons');
@@ -115,16 +127,16 @@ const buttonsSection = document.querySelector('.buttons');
 title.addEventListener('click', e => {
   e.preventDefault();
   
-  if (title.innerText === 'Forest') {
-    title.innerText = 'Tree';
+  if (h1.innerText === 'Forest') {
+    h1.innerText = 'Tree';
     treeGeneratorContainer.style.display = 'none';
     forestContainer.style.display = 'flex';
     buttonsSection.style.display = 'none';
   } else {
-    title.innerText = 'Forest';
+    h1.innerText = 'Forest';
     treeGeneratorContainer.style.display = 'flex';
     forestContainer.style.display = 'none';
-    buttonsSection.style.display = 'flex';
+    buttonsSection.style.display = 'block';
   }
   
 });
