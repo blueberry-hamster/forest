@@ -17,13 +17,19 @@ const showLoadingModal = bool => {
   }
 };
 
+const popMessage = message => {
+  const messageContainer = document.querySelector('.message');
+  messageContainer.innerHTML = message;
+  window.setTimeout(() => messageContainer.innerHTML = "", 3000);
+};
+
 const drawTree = currTree => {
   new Tree(currTree.levels, currTree.startPt.x).drawTree(currTree);
 };
 
 
 // DRAW THE TREE VIA BUTTON CLICKS
-let currTree = trees.tree2;
+let currTree = trees.tree3;
 drawTree(currTree);
 // remove loading after tree loads
 showLoadingModal(false);
@@ -88,16 +94,24 @@ document.querySelector('.save-local-btn').addEventListener('click', e => {
   saveToComputer(file, "tree.svg");
 });
 
-document.querySelector('.save-cloud-btn').addEventListener('click', e => {
+document.querySelector('.save-cloud-btn').addEventListener('click', async e => {
   e.preventDefault();
+  showLoadingModal(true);
+  
   const file = draw.svg();
 
-  saveToBucket(file);
+  await saveToBucket(file);
+  showLoadingModal(false);
+  popMessage('This tree has been saved to the forest.');
 });
 
+
+// handle changing 'pages'
 const title = document.querySelector('h1');
 const treeGeneratorContainer = document.querySelector('#tree-generator-container');
 const forestContainer = document.querySelector('#forest-container');
+const buttonsSection = document.querySelector('.buttons');
+
 title.addEventListener('click', e => {
   e.preventDefault();
   
@@ -105,10 +119,12 @@ title.addEventListener('click', e => {
     title.innerText = 'Tree';
     treeGeneratorContainer.style.display = 'none';
     forestContainer.style.display = 'flex';
+    buttonsSection.style.display = 'none';
   } else {
     title.innerText = 'Forest';
     treeGeneratorContainer.style.display = 'flex';
     forestContainer.style.display = 'none';
+    buttonsSection.style.display = 'flex';
   }
   
 });

@@ -167,12 +167,13 @@ body {
   width: 100vw;
   min-height: 100vh;
   background-color: #ffffff;
+  transition: all 1s ease 0s;
 }
 body h1 {
   cursor: pointer;
 }
 body h1:hover {
-  color: #1a1953;
+  color: #899080;
 }
 body #tree-generator-container {
   display: flex;
@@ -231,8 +232,17 @@ body div.adjustments-container {
   margin: auto;
   padding: 50px;
   z-index: 500;
-  background-color: rgba(255, 255, 255, 0.308);
   border-radius: 1em;
+}
+body div.adjustments-container div.message {
+  position: relative;
+  width: 150px;
+  left: 125px;
+  top: -50px;
+  color: #fa70ac;
+}
+body div.adjustments-container div.divider {
+  border-bottom: 1px solid #899080;
 }
 body div.adjustments-container h1 {
   margin-bottom: 0.5em;
@@ -258,12 +268,16 @@ body div.adjustments-container button {
   font-size: 1.2em;
   border-radius: 2px;
   color: #39372e;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
 }
 body div.adjustments-container button:hover {
   color: #ffffff;
   background-color: #39372e;
+}
+body div.adjustments-container button.save:hover {
+  background-color: #ffffff;
+  color: #899080;
 }
 
 div#loading-screen {
@@ -277,7 +291,7 @@ div#loading-screen {
   margin: auto;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.308);
+  background-color: rgba(255, 255, 255, 0.5);
   z-index: 10000;
 }
 div#loading-screen.hidden {

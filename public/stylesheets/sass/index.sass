@@ -6,11 +6,12 @@ body
   // overflow: hidden
 
   background-color: $white
+  transition: all 1s ease 0s
 
   h1 
     cursor: pointer
     &:hover
-      color: $night-blue
+      color: $silver
 
   #tree-generator-container
     display: flex
@@ -80,8 +81,19 @@ body
     padding: 50px
     z-index: 500
 
-    background-color: $milk
+    // background-color: $milk
     border-radius: 1em
+
+    div.message
+      position: relative
+      width: 150px
+      left: 125px
+      top: -50px
+
+      color: $blossom
+
+    div.divider
+      border-bottom: 1px solid $silver
 
     h1 
       margin-bottom: 0.5em
@@ -110,9 +122,15 @@ body
       border-radius: 2px
       // border: 1px solid $light-green
       color: $black-brown
-      background-color: $white
+      background-color: $milk
       cursor: pointer
 
       &:hover
         color: $white
         background-color: $black-brown
+
+      &.save:hover
+        background-color: $white
+        color: $silver
+
+

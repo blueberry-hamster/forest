@@ -61,7 +61,7 @@ export const tree2 = {
   leafWidth: 6,
   leafLength: 6,
   leafNum: 3,
-  leafSpread: 180,
+  leafSpread: 200,
   leafStartRatio: 0,
   leafEndRatio: 100,
   leafAngleChange: 180,
